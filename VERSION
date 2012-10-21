@@ -2,9 +2,19 @@ PureMVC JavaScript MultiCore Utility - Pipes (Ported)
 --------------------------------------------------------------------------
 Release Date: 10/31/2012
     Platform: JavaScript
-     Version: 1 
+     Version: 0 
     Revision: 0
-       Minor: 0
-      Author: Bill white <bill.white@puremvc.org> 
+       Minor: 3
+     Authors: Bill white <bill.white@puremvc.org> 
+            : Cliff Hall <clifford.hall@puremvc.org>
 --------------------------------------------------------------------------
-1.0   - Initial port, implemented in PureMVC.define() style.
+0.3 - Massive documentation update.
+      Fixed a few things that were wrong with the original AS3 port:
+      - Filter.js: filters all message types not just Message.NORMAL.
+      - Queue.js: default mode FIFO not SORT.
+
+
+0.2 - Replaced with native js prototype inheritance because docs don't
+      follow the puremvc.define() ineritance.
+
+0.1 - Initial port, implemented in PureMVC.define() style.
