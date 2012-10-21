@@ -12,43 +12,46 @@
  * upon by the first queue only.</P>
  *
  * @class puremvc.pipes.QueueControlMessage
- * @extends puremv.pipes.Message
- * @constructor
- * @param {string} [type]
- * The only relevant property is type.
+ * @extends puremvc.pipes.PipeMessage
+ * @param {String} type
  */
 function QueueControlMessage( type )
 {
-	this.type = type;
+   this.type = type;
 }
 
-QueueControlMessage.prototype = new Message;
+QueueControlMessage.prototype = new PipeMessage;
 QueueControlMessage.prototype.constructor = QueueControlMessage;
 
 /**
  * QueueControlMessage Type Base URI
- * @type {string}
+ *
  * @protected
  * @static
+ * @property {String} [BASE='http://puremvc.org/namespaces/pipes/messages/queue/']
  */
 QueueControlMessage.BASE  = Message.BASE + 'queue/';
 
 /**
- * QueueControlMessage Type: Flush the Queue
- * @type {string}
+ * Type: Flush the Queue
+ * 
  * @static
+ * @property {String} [FLUSH='http://puremvc.org/namespaces/pipes/messages/queue/flush']
  */
 QueueControlMessage.FLUSH = QueueControlMessage.BASE + 'flush';
 
 /**
- * QueueControlMessage Type: Toggle to Sort by Priority Mode
- * @type {string}
+ * Type: Sort by Priority Mode
+ * 
  * @static
-// toggle to sort-by-priority
-QueueControlMessage.SORT  = QueueControlMessage.BASE + 'sort';
+ * @property {String} [SORT='http://puremvc.org/namespaces/pipes/messages/queue/mode/sort']
+ */
+QueueControlMessage.SORT  = QueueControlMessage.BASE + 'mode/sort';
 
 /**
- * QueueControlMessage Type: Toggle to FIFO operation (default behavior) 
- * @type {string}
+ * Type: FIFO operation (default behavior) 
+ * 
  * @static
-QueueControlMessage.FIFO  = QueueControlMessage.BASE + 'fifo';
+ * @property {String} [FIFO='http://puremvc.org/namespaces/pipes/messages/queue/mode/fifo']
+ */
+QueueControlMessage.FIFO  = QueueControlMessage.BASE + 'mode/fifo';

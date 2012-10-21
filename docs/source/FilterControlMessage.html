@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='puremvc-pipes-FilterControlMessage'>/**
+</span> * Filter Control Message.
+ * &lt;P&gt;
+ * A special message type for controlling the behavior of a Filter.&lt;/P&gt;
+ * &lt;P&gt;
+ * The &lt;code&gt;FilterControlMessage.SET_PARAMS&lt;/code&gt; message type tells the Filter
+ * to retrieve the filter parameters object.&lt;/P&gt;
+ *
+ * &lt;P&gt;
+ * The &lt;code&gt;FilterControlMessage.SET_FILTER&lt;/code&gt; message type tells the Filter
+ * to retrieve the filter function.&lt;/P&gt;
+ *
+ * &lt;P&gt;
+ * The &lt;code&gt;FilterControlMessage.BYPASS&lt;/code&gt; message type tells the Filter
+ * that it should go into Bypass mode operation, passing all normal
+ * messages through unfiltered.&lt;/P&gt;
+ *
+ * &lt;P&gt;
+ * The &lt;code&gt;FilterControlMessage.FILTER&lt;/code&gt; message type tells the Filter
+ * that it should go into Filtering mode operation, filtering all
+ * normal normal messages before writing out. This is the default
+ * mode of operation and so this message type need only be sent to
+ * cancel a previous  &lt;code&gt;FilterControlMessage.BYPASS&lt;/code&gt; message.&lt;/P&gt;
+ *
+ * &lt;P&gt;
+ * The Filter only acts on a control message if it is targeted
+ * to this named filter instance. Otherwise it writes the message
+ * through to its output unchanged.&lt;/P&gt;
+ *
+ * @class puremvc.pipes.FilterControlMessage
+ * @extends puremvc.pipes.PipeMessage
+ * @param {String} type
+ * @param {String} name
+ * @param {Function} [filter]
+ * @param {Object} [params]
+ */
+function FilterControlMessage( type, name, filter, params )
+{
+   this.type 	= type;
+   this.name 	= name;
+   this.filter 	= filter;
+   this.params 	= params;
+}
+
+FilterControlMessage.prototype = new PipeMessage;
+FilterControlMessage.prototype.constructor = FilterControlMessage;
+
+<span id='puremvc-pipes-FilterControlMessage-static-property-BASE'>/**
+</span> * FilterControlMessage Type Base URI
+ *
+ * @protected
+ * @static
+ * @property {String} [BASE='http://puremvc.org/namespaces/pipes/messages/filter-control/']
+ */
+FilterControlMessage.BASE = Message.BASE + 'filter-control/';
+
+<span id='puremvc-pipes-FilterControlMessage-static-property-SET_PARAMS'>/**
+</span> * Type: Set Parameters
+ *
+ * @static
+ * @property {String} [SET_PARAMS='http://puremvc.org/namespaces/pipes/messages/filter-control/params/set']
+ */
+FilterControlMessage.SET_PARAMS = FilterControlMessage.BASE + 'params/set';
+
+<span id='puremvc-pipes-FilterControlMessage-static-property-SET_FILTER'>/**
+</span> * Type: Set Filter Function
+ *
+ * @static
+ * @property {String} [SET_FILTER='http://puremvc.org/namespaces/pipes/messages/filter-control/filter/set']
+ */
+FilterControlMessage.SET_FILTER = FilterControlMessage.BASE + 'filter/set';
+
+<span id='puremvc-pipes-FilterControlMessage-static-property-BYPASS'>/**
+</span> * Type: Bypass Mode
+ *
+ * @static
+ * @property {String} [BYPASS='http://puremvc.org/namespaces/pipes/messages/filter-control/mode/bypass']
+ */
+FilterControlMessage.BYPASS = FilterControlMessage.BASE + 'mode/bypass';
+
+<span id='puremvc-pipes-FilterControlMessage-static-property-FILTER'>/**
+</span> * Type: Filtering Mode (default behavior) 
+ *
+ * @static
+ * @property {String} [FILTER='http://puremvc.org/namespaces/pipes/messages/filter-control/mode/filter']
+ */
+FilterControlMessage.FILTER = FilterControlMessage.BASE + 'mode/filter';
+
+<span id='puremvc-pipes-FilterControlMessage-property-name'>/**
+</span> * Target Filter Name
+ *
+ * @property {String}
+ */ 
+FilterControlMessage.prototype.name = null;
+
+<span id='puremvc-pipes-FilterControlMessage-property-filter'>/**
+</span> * Filter Function
+ *
+ * @property {Function}
+ */ 
+FilterControlMessage.prototype.filter = null;
+
+<span id='puremvc-pipes-FilterControlMessage-property-params'>/**
+</span> * Filter Parameters
+ *
+ * @property {Object}
+ */ 
+FilterControlMessage.prototype.params = null;
+</pre>
+</body>
+</html>

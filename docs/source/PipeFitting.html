@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='puremvc-pipes-PipeFitting'>/**
+</span> * Pipe Fitting Base Class
+ * &lt;P&gt;
+ * A PipeFitting has an output that can be connected to other
+ * PipeFittings, forming a Pipeline. PipeMessages are written to one 
+ * end of a Pipeline by some client code. The messages are then
+ * transferred in synchronous fashion from one fitting to the next.
+ * 
+ * @class puremvc.pipes.PipeFitting
+ */
+function PipeFitting() {}
+
+<span id='puremvc-pipes-PipeFitting-property-output'>/**
+</span> * The output fitting
+ *
+ * @protected
+ * @property {puremvc.pipes.PipeFitting}
+ */
+PipeFitting.prototype.output = null;
+
+<span id='puremvc-pipes-PipeFitting-method-connect'>/**
+</span> * Connect another PipeFitting to the output.
+ * &lt;P&gt;Override in subclass and implement.&lt;/P&gt;
+ *
+ * @abstract
+ * @param {puremvc.pipes.PipeFitting} output
+ * @return {Boolean} true if no other fitting was already connected.
+ */
+PipeFitting.prototype.connect = function( output ) {};
+
+<span id='puremvc-pipes-PipeFitting-method-disconnect'>/**
+</span> * Disconnect the Pipe Fitting connected to the output.
+ * &lt;P&gt;Override in subclass and implement.&lt;/P&gt;
+ *
+ * @abstract
+ * @return {puremvc.pipes.PipeFitting} the disconnected output fitting
+ */
+PipeFitting.prototype.disconnect = function() {};
+
+
+<span id='puremvc-pipes-PipeFitting-method-write'>/**
+</span> * Write the message to the connected output.
+ * &lt;P&gt;Override in subclass and implement.&lt;/P&gt;
+ *
+ * @abstract
+ * @param {puremvc.pipes.PipeMessage} message
+ * @return {Boolean} true if any connected downpipe outputs failed
+ */
+PipeFitting.prototype.write = function( message ) {};
+
+
+</pre>
+</body>
+</html>

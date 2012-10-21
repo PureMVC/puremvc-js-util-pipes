@@ -14,25 +14,32 @@
  * message. Multiple queues in one pipeline are of dubious
  * use, and so having to name them would make their operation
  * more complex than need be.</P>
+ *
+ * @class puremvc.pipes.Queue
+ * @extends puremvc.pipes.Pipe
+ * @param {puremvc.pipes.PipeFitting} output
  */
-function Queue(args)
+function Queue( output )
 {
-    this.mode = QueueControlMessage.SORT;
-    this.messages = [];
 }
-
-
-Queue.NAME = "Queue"
-
 
 Queue.prototype = new Pipe;
 Queue.prototype.constructor = Queue;
 
+/**
+ * Queue Mode.
+ * 
+ * @protected
+ * @property {String} [mode=QueueControlMessage.FIFO]
+ */
+Queue.prototype.mode = QueueControlMessage.FIFO;
 
-Queue.prototype.mode = null;
-Queue.prototype.message = null;
-
-
+/**
+ * Message Collection.
+ * 
+ * @property {Array} 
+ */
+Queue.prototype.messages = [];
 
 /**
  * Handle the incoming message.
@@ -50,17 +57,15 @@ Queue.prototype.message = null;
  * Sorting-by-priority behavior continues even after a FLUSH,
  * and can be turned off by sending a FIFO message, which is
  * the default behavior for enqueue/dequeue.</P>
+ * 
+ * @param {puremvc.pipes.PipeMessage} message
+ * @return {Boolean} true if the message was successfully written to the output fitting
  */
-Queue.prototype.write = function(/*PipeMessage*/message)
+Queue.prototype.write = function( message )
 {
     var success = true;
-    switch (message.getType())
+    switch ( message.getType() )
     {
-        // Store normal messages
-        case Message.NORMAL:
-            this.store(message);
-            break;
-
         // Flush the queue
         case QueueControlMessage.FLUSH:
             success = this.flush();
@@ -75,7 +80,9 @@ Queue.prototype.write = function(/*PipeMessage*/message)
             this.mode = message.getType();
             break;
 
+	// Enqueue any other message
         default:
+            this.store( message );
             break;
     }
     return success;
@@ -84,58 +91,58 @@ Queue.prototype.write = function(/*PipeMessage*/message)
 
 /**
  * Store a message.
- * @param message the PipeMessage to enqueue.
- * @return int the new count of messages in the queue
+ *
+ * @protected
+ * @param {puremvc.pipes.PipeMessage} message the PipeMessage to enqueue.
+ * @return {Number} the new count of messages in the queue
  */
-Queue.prototype.store = function(/*PipeMessage*/message)
+Queue.prototype.store = function( message )
 {
-    this.messages.push(message);
-    if (this.mode == QueueControlMessage.SORT)
+    this.messages.push( message );
+    if ( this.mode == QueueControlMessage.SORT )
     {
-        this.message.sort(sortMessageByPriority);
+        this.message.sort( sortMessageByPriority );
     }
 };
 
-
 /**
  * Sort the Messages by priority
+ * 
+ * @protected
+ * @param {puremvc.pipes.PipeMessage} msgA
+ * @param {puremvc.pipes.PipeMessage} msgB
+ * @return {Number}
  */
-Queue.prototype.sortMessagesByPriority = function(/*PipeMessage*/msgA, /*PipeMessage*/msgB)
+Queue.prototype.sortMessagesByPriority = function( msgA, msgB )
 {
     var num = 0;
-    if (msgA.getPriority() < msgB.getPriority())
+    if ( msgA.getPriority() < msgB.getPriority() )
     {
-        num = -1;
+       num = -1;
     }
-    else
+    else if (msgA.getPriority() > msgB.getPriority())
     {
-        if (msgA.getPriority() > msgB.getPriority())
-        {
-            num = 1;
-        }
+       num = 1;
     }
     return num;
 };
 
-
 /**
  * Flush the queue.
  * <P>
- * NOTE: This empties the queue.</P>
- * @return Boolean true if all messages written successfully.
+ * This empties the queue, writing each message to the output.</P>
+ * 
+ * @protected
+ * @return {Boolean} true if all messages written successfully.
  */
 Queue.prototype.flush = function()
 {
     var success = false;
     var message = this.messages.shift();
-    // TODO: does this work for detecting the end of the messages stack?
-    while (message != undefined)
+    while ( message )
     {
         var ok = this.output.write(message);
-        if (!ok)
-        {
-            success = false;
-        }
+        if (!ok) success = false;
         message = this.messages.shift();
     }
     return success;

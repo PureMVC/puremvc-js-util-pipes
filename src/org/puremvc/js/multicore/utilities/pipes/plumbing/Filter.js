@@ -2,56 +2,81 @@
  * Pipe Filter.
  * <P>
  * Filters may modify the contents of messages before writing them to
- * their output pipe fitting. They may also have their parameters and
+ * their output pipe fitting. 
+ * <P>
+ * They may also have their parameters and
  * filter function passed to them by control message, as well as having
  * their Bypass/Filter operation mode toggled via control message.</p>
+ *
+ * @class puremvc.pipes.Filter
+ * @extends puremvc.pipes.Pipe
+ *
+ * @param {String} name
+ * @param {puremvc.pipes.PipeFitting} output
+ * @param {Function} filter
+ * @param {Object} params
  */
-function Filter(args)
+function Filter( name, output, filter, params )
 {
-    if (args)
-    {
-        this.mode = Filter.FILTER;
-        this.params = [];
-        this.filter = function(message, params)
-        {
-            return;
-        };
-
-        if (args) {
-            this.name = args.name;
-            this.output = args.output;
-            if (args.filter != undefined)
-            {
-                this.setFilter(args.filter);
-            }
-            if (args.params != null)
-            {
-                this.setParams(args.params);
-            }
-        }
-    }
+   this.name = name;
+   this.output = output;
+   this.setParams( params );
+   if ( filter ) this.setFilter( filter );
 }
-
-
-Filter.NAME = "Filter";
-
 
 Filter.prototype = new Pipe;
 Filter.prototype.constructor = Filter;
 
+/**
+ * The Filter instance's Name
+ * 
+ * @protected
+ * @property {String}
+ */
+Filter.prototype.name = "";
 
-Filter.prototype.mode = null;
-Filter.prototype.params = null;
-Filter.prototype.name = null;
-Filter.prototype.filter = null;
+/**
+ * The Filter Function
+ * 
+ * @abstract
+ * @protected
+ * @property {Function}
+ */
+Filter.prototype.filter = function( message, params ) { return message; };
 
+/**
+ * The Filter Mode
+ * 
+ * @protected
+ * @property {String} [mode=FilterControlMessage.FILTER]
+ */
+Filter.prototype.mode = FilterControlMessage.FILTER;
+
+/**
+ * The Filter Params
+ * 
+ * @protected
+ * @property {Object}
+ */
+Filter.prototype.params = {};
 
 /**
  * Handle the incoming message.
+ *
  * <P>
- * If message type is normal, filter the message (unless in BYPASS mode)
- * and write the result to the output pipe fitting if the filter
- * operation is successful.</P>
+ * In FILTER Mode (default), if the PipeMessage is not a FilterControlMessage, 
+ * it is passed to the filter function along with the filter parameters. 
+ * The result is written to the output PipeFitting if the filter operation 
+ * is successful.</P>
+ *
+ * <P>
+ * In BYPASS Mode, if the PipeMessage is not a FilterControlMessage, 
+ * it is written to the output PipeFitting without modification.</P>
+ *
+ * <P>
+ * The Filter only acts on a FilterControlMessage if it is targeted
+ * to this named Filter instance. Otherwise it writes through to the
+ * output.</P>
  *
  * <P>
  * The FilterControlMessage.SET_PARAMS message type tells the Filter
@@ -76,128 +101,124 @@ Filter.prototype.filter = null;
  * mode of operation and so this message type need only be sent to
  * cancel a previous BYPASS message.</P>
  *
- * <P>
- * The Filter only acts on the control message if it is targeted
- * to this named filter instance. Otherwise it writes through to the
- * output.</P>
- *
- * @return Boolean True if the filter process does not throw an error and subsequent operations
+ * @param {puremvc.pipes.PipeMessage} message
+ * @return {Boolean} true if the filter process does not throw an error and subsequent operations
  * in the pipeline succede.
  */
-Filter.prototype.write = function(/*PipeMessage*/message)
+Filter.prototype.write = function( message )
 {
     var outputMessage;
     var success = true;
 
-    switch (message.type)
+    switch ( message.type )
     {
-        // filter normal messages
-        case Message.NORMAL:
-            try {
-                if (this.mode == FilterControlMessage.FILTER)
-                {
-                    outputMessage = this.applyFilter(message);
-                }
-                else
-                {
-                    outputMessage = message;
-                }
-                success = this.output.write(outputMessage);
-            }
-            catch (e)
-            {
-                success = false;
-            }
-            break;
-
         // accept parameters from control message
         case  FilterControlMessage.SET_PARAMS:
-            if (this.isTarget(message))
+            if ( this.isTarget( message ) )
             {
-                this.setParams(message.params);
+                this.setParams( message.params );
             }
             else
             {
-                success = this.output.write(outputMessage);
+                success = this.output.write( outputMessage );
             }
             break;
 
         // accept filter function from control message
         case FilterControlMessage.SET_FILTER:
-            if (this.isTarget(message))
+            if ( this.isTarget( message ) )
             {
-                this.setFilter(message.filter);
+                this.setFilter( message.filter );
             }
             else
             {
-                success = this.output.write(outputMessage);
+                success = this.output.write( outputMessage);
             }
             break;
 
         // toggle between filter or bypass operational modes
         case FilterControlMessage.BYPASS:
         case FilterControlMessage.FILTER:
-            if (this.isTarget(message))
+            if ( this.isTarget( message ) )
             {
                 this.mode = message.type;
             }
             else
             {
-                success = this.output.write(message);
+                success = this.output.write( message );
             }
             break;
 
+	// filter all other message types
         default:
-            success = this.output.write(outputMessage);
+            try {
+                if ( this.mode == FilterControlMessage.FILTER )
+                {
+                    outputMessage = this.applyFilter( message );
+                }
+                else
+                {
+                    outputMessage = message;
+                }
+                success = this.output.write( outputMessage );
+            }
+            catch ( e )
+            {
+                success = false;
+            }
+            break;
     }
 
     return success;
 };
 
-
-/**
- * is the message directed at this filter instance?
- */
-Filter.prototype.isTarget = function(/*PipeMessage*/message)
-{
-    return (message.name == this.name);
-};
-
-
 /**
  * Set the filter parameters
  * <P>
- * This can be an object and can container whatever arbitrary properties and values your filter
+ * This can be an object and can contain whatever arbitrary properties and values your filter
  * method requires to operate. </P>
  *
- * @param params the parameters object
+ * @param {Object} params the parameters object
  */
-Filter.prototype.setParams =function(/*Object*/params)
+Filter.prototype.setParams = function( params )
 {
     this.params = params;
 };
 
-
 /**
  * Set the filter function.
  * <P>
- * It must accept two arguments; an PipeMessage, and a parameter Object, which
- * can container whatever arbitrary properties and values your filter method requires.</P>
- * @param filter
+ * It must accept two arguments; a PipeMessage and a parameter Object, which
+ * can contain whatever arbitrary properties and values your filter method requires.</P>
  *
- * @param filter the filter function
+ * @param {Function} filter the filter function
  */
-Filter.prototype.setFilter = function(/*Function*/filter)
+Filter.prototype.setFilter = function( filter )
 {
     this.filter = filter;
 };
 
+/**
+ * Filter the message. Called from the write() method.
+ * 
+ * @protected
+ * @param {puremvc.pipes.PipeMessage}
+ * @return {puremvc.pipes.PipeMessage}
+ */
+Filter.prototype.applyFilter = function( message )
+{
+    this.filter.apply( this, [ message, this.params ] );
+    return message;
+};
 
 /**
- * Filter the message
+ * Is the message directed at this Filter instance?
+ * 
+ * @protected
+ * @param {puremvc.pipes.PipeMessage}
+ * @return {Boolean} true if the message is for this Filter instance.
  */
-Filter.prototype.applyFilter =function(/*PipeMessage*/message)
+Filter.prototype.isTarget = function( message )
 {
-    this.filter.apply(this, [message, this.params]);
-    return message;
+    return ( message.name == this.name );
 };

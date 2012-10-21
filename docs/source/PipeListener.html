@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='PipeListener'>/**
+</span> * Pipe Listener.
+ * &lt;P&gt;
+ * Allows a class that does not implement &lt;code&gt;PipeFitting&lt;/code&gt; to
+ * be the final recipient of the messages in a pipeline.&lt;/P&gt;
+ * @see Junction
+ */
+function PipeListener(args)
+{
+    if (args)
+    {
+        this.context = args.context;
+        this.listener = args.listener;
+    }
+}
+
+
+PipeListener.NAME = &quot;PipeListener&quot;;
+
+
+PipeListener.prototype = new PipeFitting;
+PipeListener.prototype.constructor = PipeListener;
+
+
+PipeListener.prototype.context = null;
+PipeListener.prototype.listener = null;
+
+
+PipeListener.prototype.connect = function(/*PipeFitting*/output)
+{
+    return false;
+};
+
+
+PipeListener.prototype.disconnect =  function()
+{
+    return null;
+};
+
+
+PipeListener.prototype.write = function(/*PipeMessage*/message)
+{
+    this.listener.apply(this.context, [message]);
+    return true;
+};</pre>
+</body>
+</html>

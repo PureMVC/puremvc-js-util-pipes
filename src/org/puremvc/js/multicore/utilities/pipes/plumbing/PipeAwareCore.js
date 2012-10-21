@@ -1,36 +1,44 @@
 /**
- * Pipe Aware Core 
- * <P>
- * Can be implemented by any PureMVC Core that wishes
- * to communicate with other Cores using the Pipes
- * utility.</P>
+ * Pipe Aware Core Base Class
  *
  * @class puremvc.pipes.PipeAwareCore
- * @constructor
- * @param {string} [name]
+ * @param {String} name
  */
-function PipeAwareCore( name )
-{
-   this.facade = puremvc.Facade.getInstance( name );
-   initializeCore();
+function PipeAwareCore( name ) {
+   this.name = name;
 }
 
 /**
- * Initialize the Core (called from constructor).
- * Override in subclass, register your startup command, and send your startup notification.
- * During the View Preparation phase of startup, be sure to register a JunctionMediator subclass.
- * @return {void}
+ * Startup Notification Name.
+ * 
+ * @ignore
+ * @static
+ * @property {String}
  */
-PipeAwareCore.prototype.initializeCore = function() {};
+PipeAwareCore.STARTUP = 'PipeAwareCore/startup';
+
+/**
+ * Start up the core.
+ *
+ * The specified Command will be executed, with the body of the notification
+ * containing a reference to the PipeAwareCore instance in the body.
+ * 
+ * @protected
+ * @param {Function} startupCommand
+ * A puremvc.SimpleCommand or puremvc.MacroCommand
+ */
+PipeAwareCore.prototype.startup = function( startupCommand ) 
+{
+   this.facade = puremvc.Facade.getInstance( this.name );
+   this.facade.registerCommand( PipeAwareCore.STARTUP, startupCommand );
+   this.facade.sendNotification( PipeAwareCore.STARTUP, this );
+};
 
 /**
  * Accept an input pipe.
  *
- * @param {string} [name]
- * The name of the pipe.
- * @param {puremvc.PipeFitting} [pipe]
- * The input pipe.
- * @return {void}
+ * @param {String} name 
+ * @param {puremvc.pipes.PipeFitting} pipe 
  */
 PipeAwareCore.prototype.acceptInputPipe = function( name, pipe )
 {
@@ -40,11 +48,8 @@ PipeAwareCore.prototype.acceptInputPipe = function( name, pipe )
 /**
  * Accept an output pipe.
  *
- * @param {string} [name]
- * The name of the pipe.
- * @param {puremvc.PipeFitting} [pipe]
- * The output pipe.
- * @return {void}
+ * @param {String} name 
+ * @param {puremvc.pipes.PipeFitting} pipe
  */
 PipeAwareCore.prototype.acceptOutputPipe = function(/*String*/ name, /*PipeFitting*/ pipe)
 {
@@ -53,6 +58,16 @@ PipeAwareCore.prototype.acceptOutputPipe = function(/*String*/ name, /*PipeFitti
 
 /** 
  * Facade for the Core
+ * 
+ * @protected
  * @type {puremvc.Facade}
  */
 PipeAwareCore.prototype.facade = null;
+
+/** 
+ * The name of the core.
+ * 
+ * @protected
+ * @type {String}
+ */
+PipeAwareCore.prototype.name = null;

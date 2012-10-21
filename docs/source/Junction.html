@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='org-puremvc-js-multicore-utilities-pipes-PipeAware'>/**
+</span> * @class org.puremvc.js.multicore.utilities.pipes.PipeAware
+ * Pipe Aware interface.
+ * &lt;P&gt;
+ * Can be implemented by any PureMVC Core that wishes
+ * to communicate with other Cores using the Pipes
+ * utility.&lt;/P&gt;
+ */
+function Junction(args)
+{
+    this.inputPipes = [];
+    this.outputPipes = [];
+    this.pipesMap = [];
+    this.pipeTypesMap = [];
+}
+
+
+Junction.NAME = &quot;Junction&quot;;
+
+
+Junction.prototype.constructor = Junction;
+
+
+Junction.prototype.inputPipes = null;
+Junction.prototype.outputPipes = null;
+Junction.prototype.pipesMap = null;
+Junction.prototype.pipeTypesMap = null;
+
+<span id='org-puremvc-js-multicore-utilities-pipes-PipeAware-method-registerPipe'>/**
+</span> * Register a pipe with the junction.
+ * &lt;P&gt;
+ * Pipes are registered by unique name and type,
+ * which must be either &lt;code&gt;Junction.INPUT&lt;/code&gt;
+ * or &lt;code&gt;Junction.OUTPUT&lt;/code&gt;.&lt;/P&gt;
+ * &lt;P&gt;
+ * NOTE: You cannot have an INPUT pipe and an OUTPUT
+ * pipe registered with the same name. All pipe names
+ * must be unique regardless of type.&lt;/P&gt;
+ *
+ * @return Boolean true if successfully registered. false if another pipe exists by that name.
+ */
+Junction.prototype.registerPipe = function(/*String*/name, /*String*/type, /*IPipeFitting*/pipe)
+{
+    var success = true;
+    if (this.pipesMap[name] == undefined)
+    {
+        this.pipesMap[name] = pipe;
+        this.pipeTypesMap[name] = type;
+
+        switch (type)
+        {
+            case Junction.INPUT:
+                this.inputPipes.push(name);
+                break;
+
+            case Junction.OUTPUT:
+                this.outputPipes.push(name);
+                break;
+
+            default:
+                success = false;
+        }
+    }
+    else
+    {
+        success = false;
+    }
+
+    return success;
+};
+
+
+<span id='org-puremvc-js-multicore-utilities-pipes-PipeAware-method-hasPipe'>/**
+</span> * Does this junction have a pipe by this name?
+ *
+ * @param name the pipe to check for
+ * @return Boolean whether as pipe is registered with that name.
+ */
+Junction.prototype.hasPipe = function(/*String*/name)
+{
+    return (this.pipesMap[name] != undefined);
+};
+
+
+<span id='org-puremvc-js-multicore-utilities-pipes-PipeAware-method-hasInputPipe'>/**
+</span> * Does this junction have an INPUT pipe by this name?
+ *
+ * @param name the pipe to check for
+ * @return Boolean whether an INPUT pipe is registered with that name.
+ */
+Junction.prototype.hasInputPipe = function(/*String*/name)
+{
+    return (this.hasPipe(name) &amp;&amp; (this.pipeTypesMap[name] == &quot;input&quot;));
+};
+
+
+<span id='org-puremvc-js-multicore-utilities-pipes-PipeAware-method-hasOutputPipe'>/**
+</span> * Does this junction have an OUTPUT pipe by this name?
+ *
+ * @param name the pipe to check for
+ * @return Boolean whether an OUTPUT pipe is registered with that name.
+ */
+Junction.prototype.hasOutputPipe = function(/*String*/name)
+{
+    return (this.hasPipe(name) &amp;&amp; (this.pipeTypesMap[name] == &quot;output&quot;));
+};
+
+
+<span id='org-puremvc-js-multicore-utilities-pipes-PipeAware-method-removePipe'>/**
+</span> * Remove the pipe with this name if it is registered.
+ * &lt;P&gt;
+ * NOTE: You cannot have an INPUT pipe and an OUTPUT
+ * pipe registered with the same name. All pipe names
+ * must be unique regardless of type.&lt;/P&gt;
+ *
+ * @param name the pipe to remove
+ */
+Junction.prototype.removePipe = function(/*String*/ name)
+{
+    if (this.hasPipe(name))
+    {
+        var type = this.pipeTypesMap[name];
+        var pipesList = [];
+
+        switch (type)
+        {
+            case Junction.INPUT:
+                pipesList = this.inputPipes;
+                break;
+
+            case Junction.OUTPUT:
+                pipesList = this.outputPipes;
+                break;
+        }
+
+        for (var i=0; i&lt;pipesList.length; i++)
+        {
+            if (pipesList[i] == name) {
+                pipesList.splice(i, 1);
+                break;
+            }
+        }
+
+        this.pipesMap.splice(this.pipesMap.indexOf(name), 1);
+        this.pipeTypesMap.splice(this.pipeTypesMap.indexOf(name), 1);
+    }
+};
+
+
+<span id='org-puremvc-js-multicore-utilities-pipes-PipeAware-method-retrievePipe'>/**
+</span> * Retrieve the named pipe.
+ * @param name the pipe to retrieve
+ * @return IPipeFitting the pipe registered by the given name if it exists
+ */
+Junction.prototype.retrievePipe =function(/*String*/name)
+{
+    return this.pipesMap[name];
+};
+
+
+<span id='org-puremvc-js-multicore-utilities-pipes-PipeAware-method-addPipeListener'>/**
+</span> * Add a PipeListener to an INPUT pipe.
+ * &lt;P&gt;
+ * NOTE: there can only be one PipeListener per pipe,
+ * and the listener function must accept an IPipeMessage
+ * as its sole argument.&lt;/P&gt;
+ *
+ * @param name the INPUT pipe to add a PipeListener to
+ * @param context the calling context or 'this' object
+ * @param listener the function on the context to call
+ */
+Junction.prototype.addPipeListener = function(/*String*/inputPipeName, /*Object*/context, /*Function*/listener)
+{
+    var success = false;
+    if (this.hasInputPipe(inputPipeName))
+    {
+        var pipe = this.pipesMap[inputPipeName];
+        success = pipe.connect(new PipeListener({context:context, listener:listener}));
+    }
+    return success;
+};
+
+
+<span id='org-puremvc-js-multicore-utilities-pipes-PipeAware-method-sendMessage'>/**
+</span> * Send a message on an OUTPUT pipe.
+ * @param name the OUTPUT pipe to send the message on
+ * @param message the IPipeMessage to send
+ */
+Junction.prototype.sendMessage = function(/*String*/outputPipeName, /*IPipeMessage*/message)
+{
+    var success = false;
+    if (this.hasOutputPipe(outputPipeName))
+    {
+        var pipe = this.pipesMap[outputPipeName];
+        success = pipe.write(message)
+    }
+    return success;
+};
+
+
+Junction.INPUT = &quot;input&quot;;
+Junction.OUTPUT = &quot;output&quot;;</pre>
+</body>
+</html>

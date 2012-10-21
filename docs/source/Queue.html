@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='puremvc-pipes-Queue'>/**
+</span> * Pipe Queue.
+ * &lt;P&gt;
+ * The Queue always stores inbound messages until you send it
+ * a FLUSH control message, at which point it writes its buffer
+ * to the output pipe fitting. The Queue can be sent a SORT
+ * control message to go into sort-by-priority mode or a FIFO
+ * control message to cancel sort mode and return the
+ * default mode of operation, FIFO.&lt;/P&gt;
+ *
+ * &lt;P&gt;
+ * NOTE: There can effectively be only one Queue on a given
+ * pipeline, since the first Queue acts on any queue control
+ * message. Multiple queues in one pipeline are of dubious
+ * use, and so having to name them would make their operation
+ * more complex than need be.&lt;/P&gt;
+ *
+ * @class puremvc.pipes.Queue
+ * @extends puremvc.pipes.Pipe
+ * @param {puremvc.pipes.PipeFitting} output
+ */
+function Queue( output )
+{
+}
+
+Queue.prototype = new Pipe;
+Queue.prototype.constructor = Queue;
+
+<span id='puremvc-pipes-Queue-property-mode'>/**
+</span> * Queue Mode.
+ * 
+ * @protected
+ * @property {String} [mode=QueueControlMessage.FIFO]
+ */
+Queue.prototype.mode = QueueControlMessage.FIFO;
+
+<span id='puremvc-pipes-Queue-property-messages'>/**
+</span> * Message Collection.
+ * 
+ * @property {Array} 
+ */
+Queue.prototype.messages = [];
+
+<span id='puremvc-pipes-Queue-method-write'>/**
+</span> * Handle the incoming message.
+ * &lt;P&gt;
+ * Normal messages are enqueued.&lt;/P&gt;
+ * &lt;P&gt;
+ * The FLUSH message type tells the Queue to write all
+ * stored messages to the ouptut PipeFitting, then
+ * return to normal enqueing operation.&lt;/P&gt;
+ * &lt;P&gt;
+ * The SORT message type tells the Queue to sort all
+ * &lt;I&gt;subsequent&lt;/I&gt; incoming messages by priority. If there
+ * are unflushed messages in the queue, they will not be
+ * sorted unless a new message is sent before the next FLUSH.
+ * Sorting-by-priority behavior continues even after a FLUSH,
+ * and can be turned off by sending a FIFO message, which is
+ * the default behavior for enqueue/dequeue.&lt;/P&gt;
+ * 
+ * @param {puremvc.pipes.PipeMessage} message
+ * @return {Boolean} true if the message was successfully written to the output fitting
+ */
+Queue.prototype.write = function( message )
+{
+    var success = true;
+    switch ( message.getType() )
+    {
+        // Flush the queue
+        case QueueControlMessage.FLUSH:
+            success = this.flush();
+            break;
+
+        // Put Queue into Priority Sort or FIFO mode
+        // Subsequent messages written to the queue
+        // will be affected. Sorted messages cannot
+        // be put back into FIFO order!
+        case QueueControlMessage.SORT:
+        case QueueControlMessage.FIFO:
+            this.mode = message.getType();
+            break;
+
+	// Enqueue any other message
+        default:
+            this.store( message );
+            break;
+    }
+    return success;
+};
+
+
+<span id='puremvc-pipes-Queue-method-store'>/**
+</span> * Store a message.
+ *
+ * @protected
+ * @param {puremvc.pipes.PipeMessage} message the PipeMessage to enqueue.
+ * @return {Number} the new count of messages in the queue
+ */
+Queue.prototype.store = function( message )
+{
+    this.messages.push( message );
+    if ( this.mode == QueueControlMessage.SORT )
+    {
+        this.message.sort( sortMessageByPriority );
+    }
+};
+
+<span id='puremvc-pipes-Queue-method-sortMessagesByPriority'>/**
+</span> * Sort the Messages by priority
+ * 
+ * @protected
+ * @param {puremvc.pipes.PipeMessage} msgA
+ * @param {puremvc.pipes.PipeMessage} msgB
+ * @return {Number}
+ */
+Queue.prototype.sortMessagesByPriority = function( msgA, msgB )
+{
+    var num = 0;
+    if ( msgA.getPriority() &lt; msgB.getPriority() )
+    {
+       num = -1;
+    }
+    else if (msgA.getPriority() &gt; msgB.getPriority())
+    {
+       num = 1;
+    }
+    return num;
+};
+
+<span id='puremvc-pipes-Queue-method-flush'>/**
+</span> * Flush the queue.
+ * &lt;P&gt;
+ * This empties the queue, writing each message to the output.&lt;/P&gt;
+ * 
+ * @protected
+ * @return {Boolean} true if all messages written successfully.
+ */
+Queue.prototype.flush = function()
+{
+    var success = false;
+    var message = this.messages.shift();
+    while ( message )
+    {
+        var ok = this.output.write(message);
+        if (!ok) success = false;
+        message = this.messages.shift();
+    }
+    return success;
+};
+</pre>
+</body>
+</html>

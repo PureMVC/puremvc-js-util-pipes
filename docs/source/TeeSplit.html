@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='global-property-'>/**
+</span> * Splitting Pipe Tee.
+ * &lt;P&gt;
+ * Writes input messages to multiple output pipe fittings.&lt;/P&gt;
+ */
+
+
+<span id='TeeSplit'>/**
+</span> * Constructor.
+ * &lt;P&gt;
+ * Create the TeeSplit and connect the up two optional outputs.
+ * This is the most common configuration, though you can connect
+ * as many outputs as necessary by calling &lt;code&gt;connect&lt;/code&gt;.&lt;/P&gt;
+ */
+function TeeSplit(args)
+{
+    if (args) {
+        if (args.output1)
+        {
+            this.connect(args.output1);
+        }
+
+        if (args.output2)
+        {
+            this.connect(args.output2);
+        }
+    }
+    this.outputs = [];
+}
+
+
+TeeSplit.NAME = &quot;TeeSplit&quot;;
+
+
+TeeSplit.prototype = new PipeFitting;
+TeeSplit.prototype.constructor = TeeSplit;
+
+
+TeeSplit.prototype.output = null;
+
+
+
+<span id='TeeSplit-method-connect'>/**
+</span> * Connect the output PipeFitting.
+ * &lt;P&gt;
+ * NOTE: You can connect as many outputs as you want
+ * by calling this method repeatedly.&lt;/P&gt;
+ * @param output the PipeFitting to connect for output.
+ */
+TeeSplit.prototype.connect = function(/*PipeFitting*/output)
+{
+    this.outputs.push(output);
+    return true;
+};
+
+
+<span id='TeeSplit-method-disconnect'>/**
+</span> * Disconnect the most recently connected output fitting. (LIFO)
+ * &lt;P&gt;
+ * To disconnect all outputs, you must call this
+ * method repeatedly untill it returns null.&lt;/P&gt;
+ * @param output the PipeFitting to connect for output.
+ */
+TeeSplit.prototype.disconnect = function()
+{
+    return this.outputs.pop();
+};
+
+
+<span id='TeeSplit-method-disconnectFitting'>/**
+</span> * Disconnect a given output fitting.
+ * &lt;P&gt;
+ * If the fitting passed in is connected
+ * as an output of this &lt;code&gt;TeeSplit&lt;/code&gt;, then
+ * it is disconnected and the reference returned.&lt;/P&gt;
+ * &lt;P&gt;
+ * If the fitting passed in is not connected as an
+ * output of this &lt;code&gt;TeeSplit&lt;/code&gt;, then &lt;code&gt;null&lt;/code&gt;
+ * is returned.&lt;/P&gt;
+ * @param output the PipeFitting to connect for output.
+ */
+TeeSplit.prototype.disconnectFitting = function(/*PipeFitting*/target)
+{
+    var removed;
+    for (var i = 0; i &lt; this.outputs.length; i++)
+    {
+        var output = this.outputs[i];
+        if (output == target)
+        {
+            this.outputs.splice(i, 1);
+            removed = output;
+            break;
+        }
+    }
+    return removed;
+};
+
+
+<span id='TeeSplit-method-write'>/**
+</span> * Write the message to all connected outputs.
+ * &lt;P&gt;
+ * Returns false if any output returns false,
+ * but all outputs are written to regardless.&lt;/P&gt;
+ * @param message the message to write
+ * @return Boolean whether any connected outputs failed
+ */
+TeeSplit.prototype.write = function(/*PipeMessage*/message)
+{
+    var success = true;
+    for (var i = 0; i &lt; this.outputs.length; i++)
+    {
+        var output = this.outputs[i];
+        if (!output.write(message))
+        {
+            success = false;
+        }
+    }
+    return success;
+};</pre>
+</body>
+</html>

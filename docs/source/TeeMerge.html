@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='puremvc-pipes-TeeMerge-method-constructor'><span id='puremvc-pipes-TeeMerge'>/**
+</span></span> * Merging Pipe Tee.
+ * &lt;P&gt;
+ * Writes the messages from multiple input pipelines into
+ * a single output pipe fitting.&lt;/P&gt;
+ * Constructor.
+ * &lt;P&gt;
+ * Create the TeeMerge and the two optional constructor inputs.
+ * This is the most common configuration, though you can connect
+ * as many inputs as necessary by calling &lt;code&gt;connectInput&lt;/code&gt;
+ * repeatedly.&lt;/P&gt;
+ * &lt;P&gt;
+ * Connect the single output fitting normally by calling the
+ * &lt;code&gt;connect&lt;/code&gt; method, as you would with any other PipeFitting.&lt;/P&gt;
+ *
+ * @class puremvc.pipes.TeeMerge
+ * @extends puremvc.pipes.PipeFitting
+ * @constructor
+ * @param {puremvc.pipes.PipeFitting} [input1]
+ * @param {puremvc.pipes.PipeFitting} [input1]
+ */
+function TeeMerge( input1, input2 )
+{
+   this.connectInput( input1 );
+   this.connectInput( input2 );
+}
+
+TeeMerge.prototype = new Pipe;
+TeeMerge.prototype.constructor = TeeMerge;
+
+<span id='puremvc-pipes-TeeMerge-method-connectInput'>/**
+</span> * Connect an input PipeFitting.
+ * &lt;P&gt;
+ * NOTE: You can connect as many inputs as you want
+ * by calling this method repeatedly.&lt;/P&gt;
+ *
+ * @param {puremvc.PipeFitting} [input]
+ * {@link puremvc.pipes.PipeFitting PipeFitting} to connect for input.
+ */
+TeeMerge.prototype.connectInput = function( input )
+{
+   return input.connect( this );
+};
+</pre>
+</body>
+</html>

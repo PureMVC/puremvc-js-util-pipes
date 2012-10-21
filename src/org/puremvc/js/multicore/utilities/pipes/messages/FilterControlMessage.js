@@ -28,74 +28,81 @@
  * through to its output unchanged.</P>
  *
  * @class puremvc.pipes.FilterControlMessage
- * @extends puremv.pipes.Message
- * @constructor
- * @param {Object} [args]
- * type, name, filter, and params  may be set.
+ * @extends puremvc.pipes.PipeMessage
+ * @param {String} type
+ * @param {String} name
+ * @param {Function} [filter]
+ * @param {Object} [params]
  */
-function FilterControlMessage(args)
+function FilterControlMessage( type, name, filter, params )
 {
-    if (args)
-    {
-        this.type 	= args.type;
-        this.name 	= args.name;
-        this.filter 	= args.filter;
-        this.params 	= args.params;
-    }
+   this.type 	= type;
+   this.name 	= name;
+   this.filter 	= filter;
+   this.params 	= params;
 }
 
-FilterControlMessage.prototype = new Message;
+FilterControlMessage.prototype = new PipeMessage;
 FilterControlMessage.prototype.constructor = FilterControlMessage;
 
 /**
  * FilterControlMessage Type Base URI
- * @type {string}
+ *
  * @protected
  * @static
+ * @property {String} [BASE='http://puremvc.org/namespaces/pipes/messages/filter-control/']
  */
 FilterControlMessage.BASE = Message.BASE + 'filter-control/';
 
 /**
- * FilterControlMessage Type: Set Parameters
- * @type {string}
+ * Type: Set Parameters
+ *
  * @static
+ * @property {String} [SET_PARAMS='http://puremvc.org/namespaces/pipes/messages/filter-control/params/set']
  */
-FilterControlMessage.SET_PARAMS = FilterControlMessage.BASE + 'setparams';
+FilterControlMessage.SET_PARAMS = FilterControlMessage.BASE + 'params/set';
 
 /**
- * FilterControlMessage Type: Set Filter Function
- * @type {string}
+ * Type: Set Filter Function
+ *
  * @static
+ * @property {String} [SET_FILTER='http://puremvc.org/namespaces/pipes/messages/filter-control/filter/set']
  */
-FilterControlMessageSET_FILTER = FilterControlMessage.BASE + 'setfilter';
+FilterControlMessage.SET_FILTER = FilterControlMessage.BASE + 'filter/set';
 
 /**
- * FilterControlMessage Type: Toggle to Filter Bypass Mode
- * @type {string}
+ * Type: Bypass Mode
+ *
  * @static
+ * @property {String} [BYPASS='http://puremvc.org/namespaces/pipes/messages/filter-control/mode/bypass']
  */
-FilterControlMessage.BYPASS = FilterControlMessage.BASE + 'bypass';
+FilterControlMessage.BYPASS = FilterControlMessage.BASE + 'mode/bypass';
 
 /**
- * FilterControlMessage Type: Toggle to filtering mode (default behavior) 
- * @type {string}
+ * Type: Filtering Mode (default behavior) 
+ *
  * @static
-FilterControlMessage.FILTER = FilterControlMessage.BASE + 'filter';
+ * @property {String} [FILTER='http://puremvc.org/namespaces/pipes/messages/filter-control/mode/filter']
+ */
+FilterControlMessage.FILTER = FilterControlMessage.BASE + 'mode/filter';
 
 /**
  * Target Filter Name
- * @type {string}
+ *
+ * @property {String}
  */ 
 FilterControlMessage.prototype.name = null;
 
 /**
  * Filter Function
- * @type {Function}
+ *
+ * @property {Function}
  */ 
 FilterControlMessage.prototype.filter = null;
 
 /**
  * Filter Parameters
- * @type {Object}
+ *
+ * @property {Object}
  */ 
 FilterControlMessage.prototype.params = null;

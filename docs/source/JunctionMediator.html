@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='JunctionMediator'>/**
+</span> * JunctionMediator
+ */
+function JunctionMediator()
+{
+}
+
+
+JunctionMediator.NAME = &quot;JunctionMediator&quot;;
+
+
+JunctionMediator.prototype = new puremvc.Mediator;
+JunctionMediator.prototype.constructor = JunctionMediator;
+
+
+<span id='JunctionMediator-method-listNotificationInterests'>/**
+</span> * List Notification Interests.
+ * &lt;P&gt;
+ * Returns the notification interests for this base class.
+ * Override in subclass and call &lt;code&gt;super.listNotificationInterests&lt;/code&gt;
+ * to get this list, then add any sublcass interests to
+ * the array before returning.&lt;/P&gt;
+ */
+JunctionMediator.prototype.listNotificationInterests = function()
+{
+    return [
+        JunctionMediator.ACCEPT_INPUT_PIPE,
+        JunctionMediator.ACCEPT_OUTPUT_PIPE
+    ];
+};
+
+
+<span id='JunctionMediator-method-handleNotification'>/**
+</span> * Handle Notification.
+ * &lt;P&gt;
+ * This provides the handling for common junction activities. It
+ * accepts input and output pipes in response to &lt;code&gt;PipeAware&lt;/code&gt;
+ * interface calls.&lt;/P&gt;
+ * &lt;P&gt;
+ * Override in subclass, and call &lt;code&gt;super.handleNotification&lt;/code&gt;
+ * if none of the subclass-specific notification names are matched.&lt;/P&gt;
+ */
+JunctionMediator.prototype.handleNotification = function(notification)
+{
+    switch (notification.getName())
+    {
+        // accept an input pipe
+        // register the pipe and if successful
+        // set this mediator as its listener
+        case JunctionMediator.ACCEPT_INPUT_PIPE:
+            var inputPipeName = notification.getType();
+            var inputPipe = notification.getBody();
+            if (this.getJunction().registerPipe(inputPipeName, Junction.INPUT, inputPipe))
+            {
+                this.getJunction().addPipeListener(inputPipeName, this, this.handlePipeMessage);
+            }
+            break;
+
+        // accept an output pipe
+        case JunctionMediator.ACCEPT_OUTPUT_PIPE:
+            var outputPipeName = notification.getType();
+            var outputPipe = notification.getBody();
+            this.getJunction().registerPipe(outputPipeName, Junction.OUTPUT, outputPipe);
+            break;
+
+        default:
+            break;
+    }
+};
+
+
+JunctionMediator.prototype.handlePipeMessage = function(message)
+{
+};
+
+
+JunctionMediator.prototype.getJunction = function()
+{
+    return this.viewComponent;
+};
+
+// accept input pipe notification name constant
+JunctionMediator.ACCEPT_INPUT_PIPE = 'acceptInputPipe';
+// accept output pipe notification name constant
+JunctionMediator.ACCEPT_OUTPUT_PIPE = 'acceptOutputPipe';</pre>
+</body>
+</html>

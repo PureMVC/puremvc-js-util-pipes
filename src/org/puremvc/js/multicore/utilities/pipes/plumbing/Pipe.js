@@ -1,37 +1,30 @@
 /**
  * Pipe.
  * <P>
- * This is the most basic <code>PipeFitting</code>,
- * simply allowing the connection of an output
+ * This is the most basic {@link puremvc.pipes.PipeFitting},
+ * allowing the connection of an output
  * fitting and writing of a message to that output.</P>
+ *
+ * @class puremvc.pipes.Pipe
+ * @extends puremvc.pipes.PipeFitting
  */
-function Pipe(args)
+function Pipe( output )
 {
-    if (args)
-    {
-        this.connect(args.output);
-    }
+   this.connect( output );
 }
-
-
-Pipe.NAME = "Pipe";
-
 
 Pipe.prototype = new PipeFitting;
 Pipe.prototype.constructor = Pipe;
-
-
-Pipe.prototype.output = null;
 
 /**
  * Connect another PipeFitting to the output.
  * PipeFittings connect to and write to other
  * PipeFittings in a one-way, synchronous chain.</P>
- * @param output
+ *
+ * @param {puremvc.pipes.PipeFitting} output
  * @return boolean true if no other fitting was already connected.
  */
-
-Pipe.prototype.connect = function(/*PipeFitting*/output)
+Pipe.prototype.connect = function( output )
 {
     var success = false;
     if (this.output == undefined)
@@ -41,7 +34,6 @@ Pipe.prototype.connect = function(/*PipeFitting*/output)
     }
     return success;
 };
-
 
 /**
  * Disconnect the Pipe Fitting connected to the output.
@@ -53,7 +45,7 @@ Pipe.prototype.connect = function(/*PipeFitting*/output)
  * connect them to the input and output of whatever
  * fiting that you're splicing in.</P>
  *
- * @return PipeFitting the now disconnected output fitting
+ * @return {puremvc.pipes.PipeFitting} the disconnected output fitting
  */
 
 Pipe.prototype.disconnect = function()
@@ -66,11 +58,12 @@ Pipe.prototype.disconnect = function()
 
 /**
  * Write the message to the connected output.
- * @param message the message to write
- * @return Boolean whether any connected downpipe outputs failed
+ *
+ * @param {puremvc.pipes.PipeMessage} message
+ * @return {Boolean} true if any connected downpipe outputs failed
  */
 
-Pipe.prototype.write = function(/*PipeMessage*/message)
+Pipe.prototype.write = function( message )
 {
-    return this.output.write(message);
+    return this.output.write( message );
 };

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='puremvc-pipes-QueueControlMessage'>/**
+</span> * Queue Control Message.
+ * &lt;P&gt;
+ * A special message for controlling the behavior of a Queue.&lt;/P&gt;
+ * &lt;P&gt;
+ * When written to a pipeline containing a Queue, the type
+ * of the message is interpreted and acted upon by the Queue.&lt;/P&gt;
+ * &lt;P&gt;
+ * Unlike filters, multiple serially connected queues aren't
+ * very useful and so they do not require a name. If multiple
+ * queues are connected serially, the message will be acted
+ * upon by the first queue only.&lt;/P&gt;
+ *
+ * @class puremvc.pipes.QueueControlMessage
+ * @extends puremvc.pipes.PipeMessage
+ * @param {String} type
+ */
+function QueueControlMessage( type )
+{
+   this.type = type;
+}
+
+QueueControlMessage.prototype = new PipeMessage;
+QueueControlMessage.prototype.constructor = QueueControlMessage;
+
+<span id='puremvc-pipes-QueueControlMessage-static-property-BASE'>/**
+</span> * QueueControlMessage Type Base URI
+ *
+ * @protected
+ * @static
+ * @property {String} [BASE='http://puremvc.org/namespaces/pipes/messages/queue/']
+ */
+QueueControlMessage.BASE  = Message.BASE + 'queue/';
+
+<span id='puremvc-pipes-QueueControlMessage-static-property-FLUSH'>/**
+</span> * Type: Flush the Queue
+ * 
+ * @static
+ * @property {String} [FLUSH='http://puremvc.org/namespaces/pipes/messages/queue/flush']
+ */
+QueueControlMessage.FLUSH = QueueControlMessage.BASE + 'flush';
+
+<span id='puremvc-pipes-QueueControlMessage-static-property-SORT'>/**
+</span> * Type: Sort by Priority Mode
+ * 
+ * @static
+ * @property {String} [SORT='http://puremvc.org/namespaces/pipes/messages/queue/mode/sort']
+ */
+QueueControlMessage.SORT  = QueueControlMessage.BASE + 'mode/sort';
+
+<span id='puremvc-pipes-QueueControlMessage-static-property-FIFO'>/**
+</span> * Type: FIFO operation (default behavior) 
+ * 
+ * @static
+ * @property {String} [FIFO='http://puremvc.org/namespaces/pipes/messages/queue/mode/fifo']
+ */
+QueueControlMessage.FIFO  = QueueControlMessage.BASE + 'mode/fifo';
+</pre>
+</body>
+</html>

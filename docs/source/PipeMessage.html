@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='puremvc-pipes-PipeMessage'>/**
+</span> * PipeMessage Base Class
+ * &lt;P&gt;
+ * PipeMessages are written into a pipeline composed of
+ * PipeFittings. Pipelines to connect cores in a 
+ * PureMVC MultiCore app.&lt;/P&gt;
+ * &lt;P&gt;
+ * The PipeMessage is passed from one fitting to the
+ * next in synchronous fashion. Depending on type, 
+ * message may be handled differently by the fittings. &lt;/P&gt;
+ * &lt;P&gt;
+ * PipeMessages travelling through a Pipeline can
+ * be filtered, and queued. In a queue, they may
+ * be sorted by priority. Based on type, they
+ * may used as control messages to modify the
+ * behavior of filter or queue fittings connected
+ * to the pipleline into which they are written.&lt;/P&gt;
+ *
+ * @class puremvc.pipes.PipeMessage
+ * @param {String} type
+ * @param {Object} [header]
+ * @param {Object} [body]
+ * @param {Number} [priority]
+ */
+function PipeMessage( type, header, body, priority )
+{
+   this.type 	 = type;
+   this.header 	 = header;
+   this.body 	 = body;
+   this.priority = priority;
+}
+
+<span id='puremvc-pipes-PipeMessage-static-property-PRIORITY_HIGH'>/** 
+</span> * Priority: High. PipeMessage can be sorted to the front of the queue 
+ *
+ * @static
+ * @property {Number}
+ */
+PipeMessage.PRIORITY_HIGH = 1;
+
+<span id='puremvc-pipes-PipeMessage-static-property-PRIORITY_MED'>/** 
+</span> * Priority: Medium. The default
+ *
+ * @static
+ * @property {Number}
+ */
+PipeMessage.PRIORITY_MED = 5;
+
+<span id='puremvc-pipes-PipeMessage-static-property-PRIORITY_LOW'>/** 
+</span> * Priority: Low. PipeMessage can be sorted to the back of the queue
+ *
+ * @static
+ * @property {Number}
+ */
+PipeMessage.PRIORITY_LOW = 10;
+
+<span id='puremvc-pipes-PipeMessage-static-property-BASE'>/** 
+</span> * PipeMessage Type Base URI
+ *
+ * @protected
+ * @static
+ * @property {String}
+ */
+PipeMessage.BASE = 'http://puremvc.org/namespaces/pipes/messages/';
+
+<span id='puremvc-pipes-PipeMessage-static-property-NORMAL'>/** 
+</span> * Type: Normal
+ *
+ * @static
+ * @property {String} [NORMAL='http://puremvc.org/namespaces/pipes/messages/normal']
+ */
+PipeMessage.NORMAL = PipeMessage.BASE + 'normal';
+
+<span id='puremvc-pipes-PipeMessage-static-property-ERROR'>/** 
+</span> * Type: Error
+ *
+ * @static
+ * @property {String} [ERROR='http://puremvc.org/namespaces/pipes/messages/error']
+ */
+PipeMessage.ERROR = PipeMessage.BASE + 'error';
+
+<span id='puremvc-pipes-PipeMessage-property-type'>/** 
+</span> * PipeMessage Type
+ *
+ * @property {String} [type=PipeMessage.NORMAL]
+ */
+PipeMessage.prototype.type = PipeMessage.NORMAL;
+
+<span id='puremvc-pipes-PipeMessage-property-header'>/** 
+</span> * PipeMessage Header
+ *
+ * @property {Object}
+ */
+PipeMessage.prototype.header = null;
+
+<span id='puremvc-pipes-PipeMessage-property-body'>/** 
+</span> * PipeMessage Body
+ *
+ * @property {Object}
+ */
+PipeMessage.prototype.body = null;
+
+<span id='puremvc-pipes-PipeMessage-property-priority'>/** 
+</span> * PipeMessage Priority
+ *
+ * @property {Number} [priority=PipeMessage.PRIORITY_MED]
+ */
+PipeMessage.prototype.priority = PipeMessage.PRIORITY_MED;
+</pre>
+</body>
+</html>
