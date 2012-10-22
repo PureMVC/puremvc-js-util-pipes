@@ -128,7 +128,7 @@ Queue.prototype.store = function( message )
  * @protected
  * @param {puremvc.pipes.PipeMessage} msgA
  * @param {puremvc.pipes.PipeMessage} msgB
- * @return {Number}
+ * @return {Number} -1 if msgA is less, 0 if msgA and msgB are equal, 1 if msgA is greater
  */
 Queue.prototype.sortMessagesByPriority = function( msgA, msgB )
 {
