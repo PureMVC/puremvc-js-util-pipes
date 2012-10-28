@@ -1,13 +1,14 @@
 PureMVC JavaScript MultiCore Utility - Pipes (Ported)
 --------------------------------------------------------------------------
-Release Date: 10/31/2012
+Release Date: 11/11/2012
     Platform: JavaScript
      Version: 0 
-    Revision: 0
-       Minor: 3
+    Revision: 4
      Authors: Bill white <bill.white@puremvc.org> 
             : Cliff Hall <clifford.hall@puremvc.org>
 --------------------------------------------------------------------------
+0.4 - More Documentation, bug fixes, and new take on PipeAwareCore
+   
 0.3 - Massive documentation update.
       Fixed a few things that were wrong with the original AS3 port:
       - Filter.js: filters all message types not just Message.NORMAL.
