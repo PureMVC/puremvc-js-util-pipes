@@ -15,50 +15,79 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js"><span id='PipeListener'>/**
-</span> * Pipe Listener.
+  <pre class="prettyprint lang-js"><span id='puremvc-pipes-PipeListener-method-constructor'><span id='puremvc-pipes-PipeListener'>/**
+</span></span> * Pipe Listener.
  * &lt;P&gt;
  * Allows a class that does not implement &lt;code&gt;PipeFitting&lt;/code&gt; to
  * be the final recipient of the messages in a pipeline.&lt;/P&gt;
- * @see Junction
+ * 
+ * @class puremvc.pipes.PipeListener
+ * @extends puremvc.pipes.Pipe
+ * 
+ * @constructor
+ * Creates a new PipeListener instance.
+ * @param {Object} caller The calling object
+ * @param {Function} callback The callback method on the caller
  */
-function PipeListener(args)
+function PipeListener( caller, callback )
 {
-    if (args)
-    {
-        this.context = args.context;
-        this.listener = args.listener;
-    }
+   if (caller &amp;&amp; callback) {
+      this.caller = caller;
+      this.callback = callback;
+   }
 }
 
-
-PipeListener.NAME = &quot;PipeListener&quot;;
-
-
-PipeListener.prototype = new PipeFitting;
+PipeListener.prototype = new PipeFitting();
 PipeListener.prototype.constructor = PipeListener;
 
+<span id='puremvc-pipes-PipeListener-property-caller'>/**
+</span> * @protected
+ * @property {Object} caller The calling Object
+ */
+PipeListener.prototype.caller = null;
 
-PipeListener.prototype.context = null;
-PipeListener.prototype.listener = null;
+<span id='puremvc-pipes-PipeListener-property-callback'>/**
+</span> * @protected
+ * @property {Function} callback The callback method on the calling Object
+ */
+PipeListener.prototype.callback = null;
 
-
-PipeListener.prototype.connect = function(/*PipeFitting*/output)
+<span id='puremvc-pipes-PipeListener-method-connect'>/**
+</span> * Can't connect any further output.
+ * 
+ * @param {puremvc.pipes.PipeFitting} output 
+ * @return {Boolean} always false
+ */
+PipeListener.prototype.connect = function( output )
 {
     return false;
 };
 
-
+<span id='puremvc-pipes-PipeListener-method-disconnect'>/**
+</span> * Nothing to disconnect.
+ * 
+ * @return {puremvc.pipes.PipeFitting} always null
+ */
 PipeListener.prototype.disconnect =  function()
 {
-    return null;
+   return null;
 };
 
-
-PipeListener.prototype.write = function(/*PipeMessage*/message)
+<span id='puremvc-pipes-PipeListener-method-write'>/**
+</span> * Write the message to the listener.
+ * 
+ * @param {puremvc.pipes.PipeMessage} message The message to write.
+ * @return {Boolean} true if the message is written
+ */ 
+PipeListener.prototype.write = function( message )
 {
-    this.listener.apply(this.context, [message]);
-    return true;
-};</pre>
+   var success = false;
+   if ( message &amp;&amp; this.caller &amp;&amp; this.callback ) {
+      this.callback.apply( this.caller, [ message ] );
+      success = true;
+   }
+   return success;
+};
+</pre>
 </body>
 </html>

@@ -15,76 +15,68 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js"><span id='global-property-'>/**
-</span> * Splitting Pipe Tee.
+  <pre class="prettyprint lang-js"><span id='puremvc-pipes-TeeSplit-method-constructor'><span id='puremvc-pipes-TeeSplit'>/**
+</span></span> * Splitting Pipe Tee.
  * &lt;P&gt;
  * Writes input messages to multiple output pipe fittings.&lt;/P&gt;
- */
-
-
-<span id='TeeSplit'>/**
-</span> * Constructor.
  * &lt;P&gt;
  * Create the TeeSplit and connect the up two optional outputs.
  * This is the most common configuration, though you can connect
  * as many outputs as necessary by calling &lt;code&gt;connect&lt;/code&gt;.&lt;/P&gt;
+ *
+ * @class puremvc.pipes.TeeSplit
+ * @extends puremvc.pipes.Pipe
+ * @constructor
+ * Creates a new TeeSplit instance.
+ * @param {puremvc.pipes.PipeFitting} output1
+ * @param {puremvc.pipes.PipeFitting} output2
  */
-function TeeSplit(args)
+function TeeSplit( output1, output2 )
 {
-    if (args) {
-        if (args.output1)
-        {
-            this.connect(args.output1);
-        }
-
-        if (args.output2)
-        {
-            this.connect(args.output2);
-        }
-    }
-    this.outputs = [];
+   this.outputs = [];
+   this.connect( output1 );
+   this.connect( output2 );
 }
 
-
-TeeSplit.NAME = &quot;TeeSplit&quot;;
-
-
-TeeSplit.prototype = new PipeFitting;
+TeeSplit.prototype = new Pipe;
 TeeSplit.prototype.constructor = TeeSplit;
 
+<span id='puremvc-pipes-TeeSplit-property-outputs'>/**
+</span> * @ignore
+ * @protected
+ * @property {Array} outputs;
+ */
+TeeSplit.prototype.outputs = null; 
 
-TeeSplit.prototype.output = null;
-
-
-
-<span id='TeeSplit-method-connect'>/**
-</span> * Connect the output PipeFitting.
+<span id='puremvc-pipes-TeeSplit-method-connect'>/**
+</span> * Connect an output PipeFitting.
  * &lt;P&gt;
  * NOTE: You can connect as many outputs as you want
  * by calling this method repeatedly.&lt;/P&gt;
- * @param output the PipeFitting to connect for output.
+ *
+ * @param {puremvc.pipes.PipeFitting} output the PipeFitting to connect for output.
+ * @return {Boolean}
  */
-TeeSplit.prototype.connect = function(/*PipeFitting*/output)
+TeeSplit.prototype.connect = function( output )
 {
-    this.outputs.push(output);
+    this.outputs.push( output );
     return true;
 };
 
-
-<span id='TeeSplit-method-disconnect'>/**
+<span id='puremvc-pipes-TeeSplit-method-disconnect'>/**
 </span> * Disconnect the most recently connected output fitting. (LIFO)
  * &lt;P&gt;
  * To disconnect all outputs, you must call this
- * method repeatedly untill it returns null.&lt;/P&gt;
- * @param output the PipeFitting to connect for output.
+ * method repeatedly until it returns null.&lt;/P&gt;
+ *
+ * @return {puremvc.pipes.PipeFitting} output The PipeFitting to connect for output.
  */
 TeeSplit.prototype.disconnect = function()
 {
     return this.outputs.pop();
 };
 
-
-<span id='TeeSplit-method-disconnectFitting'>/**
+<span id='puremvc-pipes-TeeSplit-method-disconnectFitting'>/**
 </span> * Disconnect a given output fitting.
  * &lt;P&gt;
  * If the fitting passed in is connected
@@ -94,15 +86,17 @@ TeeSplit.prototype.disconnect = function()
  * If the fitting passed in is not connected as an
  * output of this &lt;code&gt;TeeSplit&lt;/code&gt;, then &lt;code&gt;null&lt;/code&gt;
  * is returned.&lt;/P&gt;
- * @param output the PipeFitting to connect for output.
+ * 
+ * @param {puremvc.pipes.PipeFitting} target the fitting to disconnect
+ * @return {puremvc.pipes.PipeFitting} the removed PipeFitting
  */
-TeeSplit.prototype.disconnectFitting = function(/*PipeFitting*/target)
+TeeSplit.prototype.disconnectFitting = function( target )
 {
     var removed;
     for (var i = 0; i &lt; this.outputs.length; i++)
     {
         var output = this.outputs[i];
-        if (output == target)
+        if (output === target)
         {
             this.outputs.splice(i, 1);
             removed = output;
@@ -112,27 +106,28 @@ TeeSplit.prototype.disconnectFitting = function(/*PipeFitting*/target)
     return removed;
 };
 
-
-<span id='TeeSplit-method-write'>/**
+<span id='puremvc-pipes-TeeSplit-method-write'>/**
 </span> * Write the message to all connected outputs.
  * &lt;P&gt;
  * Returns false if any output returns false,
  * but all outputs are written to regardless.&lt;/P&gt;
- * @param message the message to write
- * @return Boolean whether any connected outputs failed
+ * 
+ * @param {puremvc.pipes.PipeMessage} message The message to write
+ * @return {Boolean} true if any connected outputs failed
  */
-TeeSplit.prototype.write = function(/*PipeMessage*/message)
+TeeSplit.prototype.write = function( message )
 {
     var success = true;
-    for (var i = 0; i &lt; this.outputs.length; i++)
+    for ( var i = 0; i &lt; this.outputs.length; i++ )
     {
         var output = this.outputs[i];
-        if (!output.write(message))
+        if ( !output.write( message ) )
         {
             success = false;
         }
     }
     return success;
-};</pre>
+};
+</pre>
 </body>
 </html>

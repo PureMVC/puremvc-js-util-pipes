@@ -1,11 +1,17 @@
 /**
  * Pipe Aware Core Base Class
+ * <P>
+ * Constructor gets the Facade for this Core, 
+ * then calls <code>initializeCore</code>.</P>
  *
  * @class puremvc.pipes.PipeAwareCore
- * @param {String} name
+ * @constructor
+ * Creates a new PipeAwareCore instance.
+ * @param {String} name The unique name for this core.
  */
 function PipeAwareCore( name ) {
-   this.name = name;
+   this.facade = puremvc.Facade.getInstance( this.name );
+   this.initializeCore();
 }
 
 /**
@@ -16,6 +22,21 @@ function PipeAwareCore( name ) {
  * @property {String}
  */
 PipeAwareCore.STARTUP = 'PipeAwareCore/startup';
+
+/**
+ * Initialize the Core. 
+ * <P>
+ * Called by constructor, registers a JunctionMediator. </P>
+ * <P>
+ * If you need to override JunctionMediator, you can override 
+ * this method and register your own JunctionMediator() subclass.</P>
+ * 
+ * @protected
+ */
+PipeAwareCore.prototype.initializeCore = function( ) 
+{
+   this.facade.registerMediator( new JunctionMediator() );
+}
 
 /**
  * Start up the core.
@@ -29,7 +50,6 @@ PipeAwareCore.STARTUP = 'PipeAwareCore/startup';
  */
 PipeAwareCore.prototype.startup = function( startupCommand ) 
 {
-   this.facade = puremvc.Facade.getInstance( this.name );
    this.facade.registerCommand( PipeAwareCore.STARTUP, startupCommand );
    this.facade.sendNotification( PipeAwareCore.STARTUP, this );
 };
@@ -51,9 +71,19 @@ PipeAwareCore.prototype.acceptInputPipe = function( name, pipe )
  * @param {String} name 
  * @param {puremvc.pipes.PipeFitting} pipe
  */
-PipeAwareCore.prototype.acceptOutputPipe = function(/*String*/ name, /*PipeFitting*/ pipe)
+PipeAwareCore.prototype.acceptOutputPipe = function( name, pipe )
 {
    this.facade.sendNotification( JunctionMediator.ACCEPT_OUTPUT_PIPE, pipe, name );
+};
+
+/**
+ * Remove a pipe. 
+ *
+ * @param {String} name
+ */
+PipeAwareCore.prototype.removePipe = function( name )
+{
+   this.facade.sendNotification( JunctionMediator.REMOVE_PIPE, null, name );
 };
 
 /** 

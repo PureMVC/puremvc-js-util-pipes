@@ -19,7 +19,7 @@ function PipeFitting() {}
 PipeFitting.prototype.output = null;
 
 /**
- * Connect another PipeFitting to the output.
+ * Connect a PipeFitting to the output.
  * <P>Override in subclass and implement.</P>
  *
  * @abstract

@@ -2,70 +2,62 @@
  * Splitting Pipe Tee.
  * <P>
  * Writes input messages to multiple output pipe fittings.</P>
- */
-
-
-/**
- * Constructor.
  * <P>
  * Create the TeeSplit and connect the up two optional outputs.
  * This is the most common configuration, though you can connect
  * as many outputs as necessary by calling <code>connect</code>.</P>
+ *
+ * @class puremvc.pipes.TeeSplit
+ * @extends puremvc.pipes.Pipe
+ * @constructor
+ * Creates a new TeeSplit instance.
+ * @param {puremvc.pipes.PipeFitting} output1
+ * @param {puremvc.pipes.PipeFitting} output2
  */
-function TeeSplit(args)
+function TeeSplit( output1, output2 )
 {
-    if (args) {
-        if (args.output1)
-        {
-            this.connect(args.output1);
-        }
-
-        if (args.output2)
-        {
-            this.connect(args.output2);
-        }
-    }
-    this.outputs = [];
+   this.outputs = [];
+   this.connect( output1 );
+   this.connect( output2 );
 }
 
-
-TeeSplit.NAME = "TeeSplit";
-
-
-TeeSplit.prototype = new PipeFitting;
+TeeSplit.prototype = new Pipe;
 TeeSplit.prototype.constructor = TeeSplit;
 
-
-TeeSplit.prototype.output = null;
-
-
+/**
+ * @ignore
+ * @protected
+ * @property {Array} outputs;
+ */
+TeeSplit.prototype.outputs = null; 
 
 /**
- * Connect the output PipeFitting.
+ * Connect an output PipeFitting.
  * <P>
  * NOTE: You can connect as many outputs as you want
  * by calling this method repeatedly.</P>
- * @param output the PipeFitting to connect for output.
+ *
+ * @param {puremvc.pipes.PipeFitting} output the PipeFitting to connect for output.
+ * @return {Boolean}
  */
-TeeSplit.prototype.connect = function(/*PipeFitting*/output)
+TeeSplit.prototype.connect = function( output )
 {
-    this.outputs.push(output);
+    this.outputs.push( output );
     return true;
 };
-
 
 /**
  * Disconnect the most recently connected output fitting. (LIFO)
  * <P>
  * To disconnect all outputs, you must call this
- * method repeatedly untill it returns null.</P>
- * @param output the PipeFitting to connect for output.
+ * method repeatedly until it returns null.</P>
+ *
+ * @return {puremvc.pipes.PipeFitting} output The PipeFitting to connect for output.
  */
 TeeSplit.prototype.disconnect = function()
 {
     return this.outputs.pop();
 };
-
 
 /**
  * Disconnect a given output fitting.
@@ -77,15 +69,17 @@ TeeSplit.prototype.disconnect = function()
  * If the fitting passed in is not connected as an
  * output of this <code>TeeSplit</code>, then <code>null</code>
  * is returned.</P>
- * @param output the PipeFitting to connect for output.
+ * 
+ * @param {puremvc.pipes.PipeFitting} target the fitting to disconnect
+ * @return {puremvc.pipes.PipeFitting} the removed PipeFitting
  */
-TeeSplit.prototype.disconnectFitting = function(/*PipeFitting*/target)
+TeeSplit.prototype.disconnectFitting = function( target )
 {
     var removed;
     for (var i = 0; i < this.outputs.length; i++)
     {
         var output = this.outputs[i];
-        if (output == target)
+        if (output === target)
         {
             this.outputs.splice(i, 1);
             removed = output;
@@ -95,22 +89,22 @@ TeeSplit.prototype.disconnectFitting = function(/*PipeFitting*/target)
     return removed;
 };
 
-
 /**
  * Write the message to all connected outputs.
  * <P>
  * Returns false if any output returns false,
  * but all outputs are written to regardless.</P>
- * @param message the message to write
- * @return Boolean whether any connected outputs failed
+ * 
+ * @param {puremvc.pipes.PipeMessage} message The message to write
+ * @return {Boolean} true if any connected outputs failed
  */
-TeeSplit.prototype.write = function(/*PipeMessage*/message)
+TeeSplit.prototype.write = function( message )
 {
     var success = true;
-    for (var i = 0; i < this.outputs.length; i++)
+    for ( var i = 0; i < this.outputs.length; i++ )
     {
         var output = this.outputs[i];
-        if (!output.write(message))
+        if ( !output.write( message ) )
         {
             success = false;
         }

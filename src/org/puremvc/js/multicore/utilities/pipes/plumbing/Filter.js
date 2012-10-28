@@ -10,7 +10,8 @@
  *
  * @class puremvc.pipes.Filter
  * @extends puremvc.pipes.Pipe
- *
+ * @constructor
+ * Creates a new Filter instance.
  * @param {String} name
  * @param {puremvc.pipes.PipeFitting} output
  * @param {Function} filter

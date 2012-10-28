@@ -17,10 +17,13 @@
  *
  * @class puremvc.pipes.Queue
  * @extends puremvc.pipes.Pipe
+ * @constructor
+ * Creates a new Queue instance.
  * @param {puremvc.pipes.PipeFitting} output
  */
 function Queue( output )
 {
+   if ( output ) this.connect( output );
 }
 
 Queue.prototype = new Pipe;

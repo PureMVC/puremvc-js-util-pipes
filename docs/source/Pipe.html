@@ -15,8 +15,8 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js"><span id='puremvc-pipes-Pipe'>/**
-</span> * Pipe.
+  <pre class="prettyprint lang-js"><span id='puremvc-pipes-Pipe-method-constructor'><span id='puremvc-pipes-Pipe'>/**
+</span></span> * Pipe.
  * &lt;P&gt;
  * This is the most basic {@link puremvc.pipes.PipeFitting},
  * allowing the connection of an output
@@ -24,17 +24,20 @@
  *
  * @class puremvc.pipes.Pipe
  * @extends puremvc.pipes.PipeFitting
+ * @constructor
+ * Creates a new Pipe instance.
+ * @param {puremvc.pipes.PipeFitting} output the output to connect this pipe too.
  */
 function Pipe( output )
 {
-   this.connect( output );
+   if ( output ) this.connect( output );
 }
 
 Pipe.prototype = new PipeFitting;
 Pipe.prototype.constructor = Pipe;
 
 <span id='puremvc-pipes-Pipe-method-connect'>/**
-</span> * Connect another PipeFitting to the output.
+</span> * Connect a PipeFitting to this pipe's output.
  * PipeFittings connect to and write to other
  * PipeFittings in a one-way, synchronous chain.&lt;/P&gt;
  *
@@ -71,7 +74,6 @@ Pipe.prototype.disconnect = function()
     this.output = undefined;
     return disconnectedFitting;
 };
-
 
 <span id='puremvc-pipes-Pipe-method-write'>/**
 </span> * Write the message to the connected output.

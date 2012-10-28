@@ -17,6 +17,8 @@
  * to the pipleline into which they are written.</P>
  *
  * @class puremvc.pipes.PipeMessage
+ * @constructor
+ * Creates a new PipeMessage instance
  * @param {String} type
  * @param {Object} [header]
  * @param {Object} [body]

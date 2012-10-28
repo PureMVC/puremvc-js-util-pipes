@@ -15,8 +15,8 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js"><span id='puremvc-pipes-Queue'>/**
-</span> * Pipe Queue.
+  <pre class="prettyprint lang-js"><span id='puremvc-pipes-Queue-method-constructor'><span id='puremvc-pipes-Queue'>/**
+</span></span> * Pipe Queue.
  * &lt;P&gt;
  * The Queue always stores inbound messages until you send it
  * a FLUSH control message, at which point it writes its buffer
@@ -34,10 +34,13 @@
  *
  * @class puremvc.pipes.Queue
  * @extends puremvc.pipes.Pipe
+ * @constructor
+ * Creates a new Queue instance.
  * @param {puremvc.pipes.PipeFitting} output
  */
 function Queue( output )
 {
+   if ( output ) this.connect( output );
 }
 
 Queue.prototype = new Pipe;

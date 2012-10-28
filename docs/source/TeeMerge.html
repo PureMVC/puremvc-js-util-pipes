@@ -20,7 +20,6 @@
  * &lt;P&gt;
  * Writes the messages from multiple input pipelines into
  * a single output pipe fitting.&lt;/P&gt;
- * Constructor.
  * &lt;P&gt;
  * Create the TeeMerge and the two optional constructor inputs.
  * This is the most common configuration, though you can connect
@@ -31,10 +30,11 @@
  * &lt;code&gt;connect&lt;/code&gt; method, as you would with any other PipeFitting.&lt;/P&gt;
  *
  * @class puremvc.pipes.TeeMerge
- * @extends puremvc.pipes.PipeFitting
+ * @extends puremvc.pipes.Pipe
  * @constructor
- * @param {puremvc.pipes.PipeFitting} [input1]
- * @param {puremvc.pipes.PipeFitting} [input1]
+ * Creates a new TeeMerge instance.
+ * @param {puremvc.pipes.PipeFitting} input1
+ * @param {puremvc.pipes.PipeFitting} input2
  */
 function TeeMerge( input1, input2 )
 {
@@ -42,7 +42,7 @@ function TeeMerge( input1, input2 )
    this.connectInput( input2 );
 }
 
-TeeMerge.prototype = new Pipe;
+TeeMerge.prototype = new Pipe();
 TeeMerge.prototype.constructor = TeeMerge;
 
 <span id='puremvc-pipes-TeeMerge-method-connectInput'>/**
@@ -51,7 +51,7 @@ TeeMerge.prototype.constructor = TeeMerge;
  * NOTE: You can connect as many inputs as you want
  * by calling this method repeatedly.&lt;/P&gt;
  *
- * @param {puremvc.PipeFitting} [input]
+ * @param {puremvc.pipes.PipeFitting} input
  * {@link puremvc.pipes.PipeFitting PipeFitting} to connect for input.
  */
 TeeMerge.prototype.connectInput = function( input )

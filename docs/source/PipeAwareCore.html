@@ -15,14 +15,20 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js"><span id='puremvc-pipes-PipeAwareCore'>/**
-</span> * Pipe Aware Core Base Class
+  <pre class="prettyprint lang-js"><span id='puremvc-pipes-PipeAwareCore-method-constructor'><span id='puremvc-pipes-PipeAwareCore'>/**
+</span></span> * Pipe Aware Core Base Class
+ * &lt;P&gt;
+ * Constructor gets the Facade for this Core, 
+ * then calls &lt;code&gt;initializeCore&lt;/code&gt;.&lt;/P&gt;
  *
  * @class puremvc.pipes.PipeAwareCore
- * @param {String} name
+ * @constructor
+ * Creates a new PipeAwareCore instance.
+ * @param {String} name The unique name for this core.
  */
 function PipeAwareCore( name ) {
-   this.name = name;
+   this.facade = puremvc.Facade.getInstance( this.name );
+   this.initializeCore();
 }
 
 <span id='puremvc-pipes-PipeAwareCore-static-property-STARTUP'>/**
@@ -33,6 +39,21 @@ function PipeAwareCore( name ) {
  * @property {String}
  */
 PipeAwareCore.STARTUP = 'PipeAwareCore/startup';
+
+<span id='puremvc-pipes-PipeAwareCore-method-initializeCore'>/**
+</span> * Initialize the Core. 
+ * &lt;P&gt;
+ * Called by constructor, registers a JunctionMediator. &lt;/P&gt;
+ * &lt;P&gt;
+ * If you need to override JunctionMediator, you can override 
+ * this method and register your own JunctionMediator() subclass.&lt;/P&gt;
+ * 
+ * @protected
+ */
+PipeAwareCore.prototype.initializeCore = function( ) 
+{
+   this.facade.registerMediator( new JunctionMediator() );
+}
 
 <span id='puremvc-pipes-PipeAwareCore-method-startup'>/**
 </span> * Start up the core.
@@ -46,7 +67,6 @@ PipeAwareCore.STARTUP = 'PipeAwareCore/startup';
  */
 PipeAwareCore.prototype.startup = function( startupCommand ) 
 {
-   this.facade = puremvc.Facade.getInstance( this.name );
    this.facade.registerCommand( PipeAwareCore.STARTUP, startupCommand );
    this.facade.sendNotification( PipeAwareCore.STARTUP, this );
 };
@@ -68,9 +88,19 @@ PipeAwareCore.prototype.acceptInputPipe = function( name, pipe )
  * @param {String} name 
  * @param {puremvc.pipes.PipeFitting} pipe
  */
-PipeAwareCore.prototype.acceptOutputPipe = function(/*String*/ name, /*PipeFitting*/ pipe)
+PipeAwareCore.prototype.acceptOutputPipe = function( name, pipe )
 {
    this.facade.sendNotification( JunctionMediator.ACCEPT_OUTPUT_PIPE, pipe, name );
+};
+
+<span id='puremvc-pipes-PipeAwareCore-method-removePipe'>/**
+</span> * Remove a pipe. 
+ *
+ * @param {String} name
+ */
+PipeAwareCore.prototype.removePipe = function( name )
+{
+   this.facade.sendNotification( JunctionMediator.REMOVE_PIPE, null, name );
 };
 
 <span id='puremvc-pipes-PipeAwareCore-property-facade'>/** 

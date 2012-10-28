@@ -18,6 +18,8 @@
  * or add a PipeListener to registered INPUT Pipe.</P>
  *
  * @class puremvc.pipes.Junction
+ * @constructor
+ * Creates a new Junction instance.
  */
 function Junction() {} 
 

@@ -29,6 +29,8 @@
  *
  * @class puremvc.pipes.FilterControlMessage
  * @extends puremvc.pipes.PipeMessage
+ * @constructor
+ * Creates a new FilterControlMessage instance
  * @param {String} type
  * @param {String} name
  * @param {Function} [filter]

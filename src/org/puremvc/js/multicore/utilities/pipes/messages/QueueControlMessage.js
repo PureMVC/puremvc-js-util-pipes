@@ -13,6 +13,8 @@
  *
  * @class puremvc.pipes.QueueControlMessage
  * @extends puremvc.pipes.PipeMessage
+ * @constructor
+ * Creates a new QueueControlMessage instance
  * @param {String} type
  */
 function QueueControlMessage( type )

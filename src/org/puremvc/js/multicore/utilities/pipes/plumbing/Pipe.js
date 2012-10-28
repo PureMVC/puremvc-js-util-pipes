@@ -7,17 +7,20 @@
  *
  * @class puremvc.pipes.Pipe
  * @extends puremvc.pipes.PipeFitting
+ * @constructor
+ * Creates a new Pipe instance.
+ * @param {puremvc.pipes.PipeFitting} output the output to connect this pipe too.
  */
 function Pipe( output )
 {
-   this.connect( output );
+   if ( output ) this.connect( output );
 }
 
 Pipe.prototype = new PipeFitting;
 Pipe.prototype.constructor = Pipe;
 
 /**
- * Connect another PipeFitting to the output.
+ * Connect a PipeFitting to this pipe's output.
  * PipeFittings connect to and write to other
  * PipeFittings in a one-way, synchronous chain.</P>
  *
@@ -54,7 +57,6 @@ Pipe.prototype.disconnect = function()
     this.output = undefined;
     return disconnectedFitting;
 };
-
 
 /**
  * Write the message to the connected output.
