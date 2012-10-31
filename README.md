@@ -8,7 +8,7 @@ This utility provides the capability for creating pipelines for passing messages
 Production - [Version 1.0](https://github.com/PureMVC/puremvc-js-util-pipes/blob/master/VERSION)
 
 ## Platforms / Technologies
-* [JavaScript(http://en.wikipedia.org/wiki/JavaScript)
+* [JavaScript](http://en.wikipedia.org/wiki/JavaScript)
 
 ## License
 * PureMVC JavaScript MultiCore Utility - Pipes (Ported) - Copyright © 2012 Bill White
