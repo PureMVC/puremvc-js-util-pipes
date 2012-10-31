@@ -1,0 +1,10 @@
+PureMVC JavaScript MultiCore Utility - Pipes (Ported)
+--------------------------------------------------------------------------
+Release Date: 10/31/2012
+    Platform: JavaScript
+     Version: 1 
+    Revision: 0
+       Minor: 0
+      Author: Bill white <bill.white@puremvc.org> 
+--------------------------------------------------------------------------
+1.0   - Initial port, implemented in PureMVC.define() style.

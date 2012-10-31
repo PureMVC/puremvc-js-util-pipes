@@ -1,16 +1,3 @@
-## [PureMVC](http://puremvc.github.com/) [JavaScript](https://github.com/PureMVC/puremvc-js-multicore-framework/wiki) Utility: Pipes
-This utility provides the capability for creating pipelines for passing messages between Cores in a PureMVC MultiCore-based application. Pipelines can contain filters, queues, splitting and merging tees, and more.
-
-* [Discussion](http://forums.puremvc.org/index.php)
-* [Overview Presentation - Intercore Communications](http://puremvc.tv/#P002/T220)
-
-## Status
-Production - [Version 1.0](https://github.com/PureMVC/puremvc-js-util-pipes/blob/master/VERSION)
-
-## Platforms / Technologies
-* [JavaScript(http://en.wikipedia.org/wiki/JavaScript)
-
-## License
 * PureMVC JavaScript MultiCore Utility - Pipes (Ported) - Copyright © 2012 Bill White
 * PureMVC - Copyright © 2006-2012 Futurescale, Inc.
 * All rights reserved.
