@@ -1,10 +1,22 @@
 /**
- * @class org.puremvc.js.multicore.utilities.pipes.PipeAware
- * Pipe Aware interface.
+ * Junction
  * <P>
- * Can be implemented by any PureMVC Core that wishes
- * to communicate with other Cores using the Pipes
- * utility.</P>
+ * Manages Pipes for a Module.
+ * 
+ * <P>
+ * When you register a Pipe with a Junction, it is 
+ * declared as being an INPUT pipe or an OUTPUT pipe.</P> 
+ * 
+ * <P> 
+ * You can retrieve or remove a registered Pipe by name,
+ * check to see if a Pipe with a given name exists,or if
+ * it exists AND is an INPUT or an OUTPUT Pipe.</P>
+ *       
+ * <P>   
+ * You can send an <code>IPipeMessage</code> on a named INPUT Pipe 
+ * or add a <code>PipeListener</code> to registered INPUT Pipe.</P>
+ *
+ * @class org.puremvc.js.multicore.utilities.pipes.plumbing.Junction
  */
 puremvc.define(
     // CLASS INFO

@@ -5,6 +5,8 @@
  * their output pipe fitting. They may also have their parameters and
  * filter function passed to them by control message, as well as having
  * their Bypass/Filter operation mode toggled via control message.</p>
+ *
+ * @class org.puremvc.js.multicore.utilities.pipes.plumbing.Filter
  */
 puremvc.define(
     // CLASS INFO

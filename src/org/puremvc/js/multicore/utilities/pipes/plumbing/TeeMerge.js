@@ -3,6 +3,8 @@
  * <P>
  * Writes the messages from multiple input pipelines into
  * a single output pipe fitting.</P>
+ *
+ * @class org.puremvc.js.multicore.utilities.pipes.plumbing.TeeMerge
  */
 puremvc.define(
     // CLASS INFO

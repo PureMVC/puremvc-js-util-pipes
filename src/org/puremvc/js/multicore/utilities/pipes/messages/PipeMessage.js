@@ -1,5 +1,4 @@
 /**
- * @class org.puremvc.js.multicore.utilities.pipes.plumbing.PipeMessage
  * Pipe Message base class
  * <P>
  * <code>PipeMessage</code>s are objects written into a Pipeline, composed of
@@ -7,6 +6,8 @@
  * next in synchronous fashion. </P>
  * <P>
  * Depending on type, message may be handled differently by the fittings. </P>
+ *
+ * @class org.puremvc.js.multicore.utilities.pipes.messages.PipeMessage
  */
 puremvc.define(
     // CLASS INFO

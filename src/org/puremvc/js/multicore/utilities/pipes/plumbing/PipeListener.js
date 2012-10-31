@@ -3,6 +3,8 @@
  * <P>
  * Allows a class that does not implement <code>PipeFitting</code> to
  * be the final recipient of the messages in a pipeline.</P>
+ *
+ * @class org.puremvc.js.multicore.utilities.pipes.plumbing.PipeListener
  * @see Junction
  */
 puremvc.define(
@@ -39,6 +41,6 @@ puremvc.define(
     },
     // STATIC MEMBERS
     {
-        NAME: 'PipeAware'
+        NAME: 'PipeListener'
     }
 );

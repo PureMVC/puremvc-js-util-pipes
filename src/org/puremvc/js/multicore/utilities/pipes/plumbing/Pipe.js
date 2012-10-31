@@ -4,6 +4,8 @@
  * This is the most basic <code>PipeFitting</code>,
  * simply allowing the connection of an output
  * fitting and writing of a message to that output.</P>
+ *
+ * @class org.puremvc.js.multicore.utilities.pipes.plumbing.Pipe
  */
 puremvc.define(
     // CLASS INFO

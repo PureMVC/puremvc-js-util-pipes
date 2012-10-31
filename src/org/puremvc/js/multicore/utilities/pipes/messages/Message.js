@@ -7,6 +7,8 @@
  * may used as control messages to modify the
  * behavior of filter or queue fittings connected
  * to the pipleline into which they are written.</P>
+ *
+ * @class org.puremvc.js.multicore.utilities.pipes.messages.Message
  */
 puremvc.define(
     // CLASS INFO

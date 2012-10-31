@@ -1,6 +1,9 @@
 /**
  * Junction Mediator.
  * <P>
+ * A base class for handling the Pipe Junction in a PipeAwareCore.</P>
+ *
+ * @class org.puremvc.js.multicore.utilities.pipes.plumbing.JunctionMediator
  */
 puremvc.define(
     // CLASS INFO

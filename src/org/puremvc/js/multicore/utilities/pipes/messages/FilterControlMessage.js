@@ -26,6 +26,8 @@
  * The Filter only acts on a control message if it is targeted
  * to this named filter instance. Otherwise it writes the message
  * through to its output unchanged.</P>
+ *
+ * @class org.puremvc.js.multicore.utilities.pipes.messages.FilterControlMessage
  */
 puremvc.define(
     // CLASS INFO

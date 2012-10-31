@@ -14,6 +14,8 @@
  * message. Multiple queues in one pipeline are of dubious
  * use, and so having to name them would make their operation
  * more complex than need be.</P>
+ * 
+ * @class org.puremvc.js.multicore.utilities.pipes.plumbing.Queue
  */
 puremvc.define(
     // CLASS INFO

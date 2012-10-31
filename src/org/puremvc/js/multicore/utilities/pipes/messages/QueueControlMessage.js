@@ -10,6 +10,8 @@
  * very useful and so they do not require a name. If multiple
  * queues are connected serially, the message will be acted
  * upon by the first queue only.</P>
+ *
+ * @class org.puremvc.js.multicore.utilities.pipes.messages.QueueControlMessage
  */
 puremvc.define(
     // CLASS INFO

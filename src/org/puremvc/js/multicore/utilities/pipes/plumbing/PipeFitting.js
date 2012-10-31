@@ -1,5 +1,4 @@
 /**
- * @class org.puremvc.js.multicore.utilities.pipes.interfaces.PipeFitting
  * Pipe Fitting base class.
  * <P>
  * An <code>PipeFitting</code> can be connected to other
@@ -7,6 +6,8 @@
  * <code>PipeMessage</code>s are written to one end of a
  * Pipeline by some client code. The messages are then
  * transferred in synchronous fashion from one fitting to the next.
+ *
+ * @class org.puremvc.js.multicore.utilities.pipes.plumbing.PipeFitting
  */
 puremvc.define(
     // CLASS INFO
@@ -53,6 +54,6 @@ puremvc.define(
     },
     // STATIC MEMBERS
     {
-        NAME: 'PipeAware'
+        NAME: 'PipeFitting'
     }
 );

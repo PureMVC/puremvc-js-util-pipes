@@ -1,6 +1,9 @@
 /**
- * Junction Mediator.
+ * Splitting Pipe Tee.
  * <P>
+ * Writes input messages to multiple output pipe fittings.</P>
+ * 
+ * @class org.puremvc.js.multicore.utilities.pipes.plumbing.TeeSplit
  */
 puremvc.define(
     // CLASS INFO
@@ -29,11 +32,6 @@ puremvc.define(
     },
     // INSTANCE MEMBERS
     {
-        /**
-         * Splitting Pipe Tee.
-         * <P>
-         * Writes input messages to multiple output pipe fittings.</P>
-         */
         outputs: null,
 
 
