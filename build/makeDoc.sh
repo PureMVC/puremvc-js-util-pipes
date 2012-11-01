@@ -1,1 +1,1 @@
-jsduck --config config/makeDocConf.json
+lib/jsduck-3.3.0 --config config/makeDocConf.json
