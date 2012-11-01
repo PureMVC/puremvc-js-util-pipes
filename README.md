@@ -5,7 +5,7 @@ This utility provides the capability for creating pipelines for passing messages
 * [Overview Presentation - Intercore Communications](http://puremvc.tv/#P002/T220)
 
 ## Status
-Production - [Version 1.0](https://github.com/PureMVC/puremvc-js-util-pipes/blob/master/VERSION)
+Still in Development (no unit tests yet) - [Version 1.0](https://github.com/PureMVC/puremvc-js-util-pipes/blob/master/VERSION)
 
 ## Platforms / Technologies
 * [JavaScript](http://en.wikipedia.org/wiki/JavaScript)
