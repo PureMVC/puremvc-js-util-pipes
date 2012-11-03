@@ -10,33 +10,27 @@
  * very useful and so they do not require a name. If multiple
  * queues are connected serially, the message will be acted
  * upon by the first queue only.</P>
- *
- * @class org.puremvc.js.multicore.utilities.pipes.messages.QueueControlMessage
  */
-puremvc.define(
-    // CLASS INFO
+
+function QueueControlMessage(args)
+{
+    if (args)
     {
-        name: 'org.puremvc.js.multicore.utilities.pipes.messages.QueueControlMessage',
-        parent: org.puremvc.js.multicore.utilities.pipes.messages.Message,
-        constructor: function(args)
-        {
-            if (args)
-            {
-                this.type = args.type;
-            }
-        }
-    },
-    // INSTANCE MEMBERS
-    {
-    },
-    // STATIC MEMBERS
-    {
-        BASE:  org.puremvc.js.multicore.utilities.pipes.messages.Message.BASE + '/queue/',
-        // flush the queue
-        FLUSH: org.puremvc.js.multicore.utilities.pipes.messages.Message.BASE + 'flush',
-        // toggle to sort-by-priority
-        SORT:  org.puremvc.js.multicore.utilities.pipes.messages.Message.BASE + 'sort',
-        // toggle to FIFO operation mode (default behavior)
-        FIFO:  org.puremvc.js.multicore.utilities.pipes.messages.Message.BASE + 'fifo'
+        this.type = args.type;
     }
-);
+}
+
+
+QueueControlMessage.NAME = "QueueControlMessage";
+
+
+QueueControlMessage.prototype = new Message;
+QueueControlMessage.prototype.constructor = QueueControlMessage;
+
+QueueControlMessage.BASE  = Message.BASE + '/queue/';
+// flush the queue
+QueueControlMessage.FLUSH = Message.BASE + 'flush';
+// toggle to sort-by-priority
+QueueControlMessage.SORT  = Message.BASE + 'sort';
+// toggle to FIFO operation mode (default behavior)
+QueueControlMessage.FIFO  = Message.BASE + 'fifo';

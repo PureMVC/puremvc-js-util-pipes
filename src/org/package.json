@@ -1,0 +1,9 @@
+{
+    "name": "puremvc-pipes",
+    "version":"1.0.0",
+    "main":"platform",
+    "dependencies": {
+        "dojo": "current"
+    },
+    "dojoBuild": "puremvc-pipes.package.profile.js"
+}

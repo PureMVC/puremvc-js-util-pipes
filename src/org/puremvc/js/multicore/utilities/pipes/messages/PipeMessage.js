@@ -1,4 +1,5 @@
 /**
+ * @class org.puremvc.js.multicore.utilities.pipes.plumbing.PipeMessage
  * Pipe Message base class
  * <P>
  * <code>PipeMessage</code>s are objects written into a Pipeline, composed of
@@ -6,63 +7,59 @@
  * next in synchronous fashion. </P>
  * <P>
  * Depending on type, message may be handled differently by the fittings. </P>
- *
- * @class org.puremvc.js.multicore.utilities.pipes.messages.PipeMessage
  */
-puremvc.define(
-    // CLASS INFO
-    {
-        name: 'org.puremvc.js.multicore.utilities.pipes.messages.PipeMessage'
-    },
-    // INSTANCE MEMBERS
-    {
-        type: null,
-        header: null,
-        body: null,
-        priority: null,
+function PipeMessage()
+{
+}
 
 
-        getType: function()
-        {
-            return this.type;
-        },
-        setType: function(arg)
-        {
-            this.type = arg;
-        },
+PipeMessage.NAME = "PipeMessage";
 
 
-        getHeader: function()
-        {
-            return this.header;
-        },
-        setHeader: function(arg)
-        {
-            this.header = arg;
-        },
+PipeMessage.constructor = PipeMessage;
 
 
-        getBody: function()
-        {
-            return this.body;
-        },
-        setBody: function(arg)
-        {
-            this.body = arg;
-        },
+PipeMessage.prototype.getType = function()
+{
+    return this.type;
+};
+PipeMessage.prototype.setType = function(arg)
+{
+    this.type = arg;
+};
 
 
-        getPriority: function()
-        {
-            return this.priority;
-        },
-        setPriority: function(arg)
-        {
-            this.priority = arg;
-        }
+PipeMessage.prototype.getHeader = function()
+{
+    return this.header;
+};
+PipeMessage.prototype.setHeader = function(arg)
+{
+    this.header = arg;
+};
 
-    },
-    // STATIC MEMBERS
-    {
-    }
-);
+
+PipeMessage.prototype.getBody = function()
+{
+    return this.body;
+};
+PipeMessage.prototype.setBody = function(arg)
+{
+    this.body = arg;
+};
+
+
+PipeMessage.prototype.getPriority = function()
+{
+    return this.priority;
+};
+PipeMessage.prototype.setPriority = function(arg)
+{
+    this.priority = arg;
+};
+
+
+PipeMessage.prototype.type = null;
+PipeMessage.prototype.header = null;
+PipeMessage.prototype.body = null;
+PipeMessage.prototype.priority = null;

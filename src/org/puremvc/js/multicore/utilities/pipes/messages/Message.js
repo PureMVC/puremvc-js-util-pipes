@@ -7,37 +7,31 @@
  * may used as control messages to modify the
  * behavior of filter or queue fittings connected
  * to the pipleline into which they are written.</P>
- *
- * @class org.puremvc.js.multicore.utilities.pipes.messages.Message
  */
-puremvc.define(
-    // CLASS INFO
+function Message(args)
+{
+    if (args)
     {
-        name: 'org.puremvc.js.multicore.utilities.pipes.messages.Message',
-        parent: org.puremvc.js.multicore.utilities.pipes.messages.PipeMessage,
-        constructor: function(args)
-        {
-            if (args)
-            {
-                this.type = args.type;
-                this.header = args.header;
-                this.body = args.body;
-                this.priority = args.priority;
-            }
-        }
-    },
-    // INSTANCE MEMBERS
-    {
-    },
-    // STATIC MEMBERS
-    {
-        // Message type base URI
-        PRIORITY_HIGH: 1,
-        // Set filter parameters
-        PRIORITY_MED: 5,
-        // Set filter function
-        PRIORITY_LOW: 10,
-        BASE: 'http://puremvc.org/namespaces/pipes/messages/',
-        NORMAL: 'http://puremvc.org/namespaces/pipes/messages/normal/'
+        this.type = args.type;
+        this.header = args.header;
+        this.body = args.body;
+        this.priority = args.priority;
     }
-);
+}
+
+
+Message.NAME = "Message";
+
+
+Message.prototype = new PipeMessage;
+Message.prototype.constructor = Message;
+
+
+// Message type base URI
+Message.PRIORITY_HIGH = 1;
+// Set filter parameters
+Message.PRIORITY_MED = 5;
+// Set filter function
+Message.PRIORITY_LOW = 10;
+Message.BASE = 'http://puremvc.org/namespaces/pipes/messages/';
+Message.NORMAL = 'http://puremvc.org/namespaces/pipes/messages/normal/';

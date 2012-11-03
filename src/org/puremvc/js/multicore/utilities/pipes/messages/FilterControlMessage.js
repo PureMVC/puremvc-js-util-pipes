@@ -26,42 +26,37 @@
  * The Filter only acts on a control message if it is targeted
  * to this named filter instance. Otherwise it writes the message
  * through to its output unchanged.</P>
- *
- * @class org.puremvc.js.multicore.utilities.pipes.messages.FilterControlMessage
  */
-puremvc.define(
-    // CLASS INFO
+function FilterControlMessage(args)
+{
+    if (args)
     {
-        name: 'org.puremvc.js.multicore.utilities.pipes.messages.FilterControlMessage',
-        parent: org.puremvc.js.multicore.utilities.pipes.messages.Message,
-        constructor: function(args)
-        {
-            if (args)
-            {
-                this.type = args.type;
-                this.name = args.name;
-                this.filter = args.filter;
-                this.params = args.params;
-            }
-        }
-    },
-    // INSTANCE MEMBERS
-    {
-        name: null,
-        filter: null,
-        params: null
-    },
-    // STATIC MEMBERS
-    {
-        // Message type base URI
-        BASE: org.puremvc.js.multicore.utilities.pipes.messages.Message.BASE + 'filter-control/',
-        // Set filter parameters
-        SET_PARAMS: org.puremvc.js.multicore.utilities.pipes.messages.Message.BASE + 'setparams',
-        // Set filter function
-        SET_FILTER: org.puremvc.js.multicore.utilities.pipes.messages.Message.BASE + 'setfilter',
-        // Toggle to filter bypass mode
-        BYPASS: org.puremvc.js.multicore.utilities.pipes.messages.Message.BASE + 'bypass',
-        // Toggle to filtering mode (default behavior)
-        FILTER: org.puremvc.js.multicore.utilities.pipes.messages.Message.BASE + 'filter'
+        this.type = args.type;
+        this.name = args.name;
+        this.filter = args.filter;
+        this.params = args.params;
     }
-);
+}
+
+
+FilterControlMessage.NAME = "FilterControlMessage";
+
+
+FilterControlMessage.prototype = new Message;
+FilterControlMessage.prototype.constructor = FilterControlMessage;
+
+
+FilterControlMessage.prototype.name = null;
+FilterControlMessage.prototype.filter = null;
+FilterControlMessage.prototype.params = null;
+
+// Message type base URI
+FilterControlMessage.BASE = Message.BASE + 'filter-control/';
+// Set filter parameters
+FilterControlMessageSET_PARAMS = Message.BASE + 'setparams';
+// Set filter function
+FilterControlMessageSET_FILTER = Message.BASE + 'setfilter';
+// Toggle to filter bypass mode
+FilterControlMessageBYPASS = Message.BASE + 'bypass';
+// Toggle to filtering mode (default behavior)
+FilterControlMessageFILTER = Message.BASE + 'filter';

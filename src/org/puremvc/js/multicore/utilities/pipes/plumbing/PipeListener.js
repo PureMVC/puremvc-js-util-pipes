@@ -3,44 +3,43 @@
  * <P>
  * Allows a class that does not implement <code>PipeFitting</code> to
  * be the final recipient of the messages in a pipeline.</P>
- *
- * @class org.puremvc.js.multicore.utilities.pipes.plumbing.PipeListener
  * @see Junction
  */
-puremvc.define(
-    // CLASS INFO
+function PipeListener(args)
+{
+    if (args)
     {
-        name: 'org.puremvc.js.multicore.utilities.pipes.plumbing.PipeListener',
-        parent: org.puremvc.js.multicore.utilities.pipes.plumbing.PipeFitting,
-        constructor: function(args) {
-            if (args) {
-                this.context = args.context;
-                this.listener = args.listener;
-            }
-        }
-    },
-    // INSTANCE MEMBERS
-    {
-        context: null,
-        listener: null,
-
-        connect: function(/*PipeFitting*/output) {
-            return false;
-        },
-
-
-        disconnect: function() {
-            return null;
-        },
-
-
-        write: function(/*PipeMessage*/message) {
-            this.listener.apply(this.context, [message]);
-            return true;
-        }
-    },
-    // STATIC MEMBERS
-    {
-        NAME: 'PipeListener'
+        this.context = args.context;
+        this.listener = args.listener;
     }
-);
+}
+
+
+PipeListener.NAME = "PipeListener";
+
+
+PipeListener.prototype = new PipeFitting;
+PipeListener.prototype.constructor = PipeListener;
+
+
+PipeListener.prototype.context = null;
+PipeListener.prototype.listener = null;
+
+
+PipeListener.prototype.connect = function(/*PipeFitting*/output)
+{
+    return false;
+};
+
+
+PipeListener.prototype.disconnect =  function()
+{
+    return null;
+};
+
+
+PipeListener.prototype.write = function(/*PipeMessage*/message)
+{
+    this.listener.apply(this.context, [message]);
+    return true;
+};
