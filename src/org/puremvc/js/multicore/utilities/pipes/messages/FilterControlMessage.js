@@ -26,37 +26,76 @@
  * The Filter only acts on a control message if it is targeted
  * to this named filter instance. Otherwise it writes the message
  * through to its output unchanged.</P>
+ *
+ * @class puremvc.pipes.FilterControlMessage
+ * @extends puremv.pipes.Message
+ * @constructor
+ * @param {Object} [args]
+ * type, name, filter, and params  may be set.
  */
 function FilterControlMessage(args)
 {
     if (args)
     {
-        this.type = args.type;
-        this.name = args.name;
-        this.filter = args.filter;
-        this.params = args.params;
+        this.type 	= args.type;
+        this.name 	= args.name;
+        this.filter 	= args.filter;
+        this.params 	= args.params;
     }
 }
-
-
-FilterControlMessage.NAME = "FilterControlMessage";
-
 
 FilterControlMessage.prototype = new Message;
 FilterControlMessage.prototype.constructor = FilterControlMessage;
 
-
-FilterControlMessage.prototype.name = null;
-FilterControlMessage.prototype.filter = null;
-FilterControlMessage.prototype.params = null;
-
-// Message type base URI
+/**
+ * FilterControlMessage Type Base URI
+ * @type {string}
+ * @protected
+ * @static
+ */
 FilterControlMessage.BASE = Message.BASE + 'filter-control/';
-// Set filter parameters
-FilterControlMessageSET_PARAMS = Message.BASE + 'setparams';
-// Set filter function
-FilterControlMessageSET_FILTER = Message.BASE + 'setfilter';
-// Toggle to filter bypass mode
-FilterControlMessageBYPASS = Message.BASE + 'bypass';
-// Toggle to filtering mode (default behavior)
-FilterControlMessageFILTER = Message.BASE + 'filter';
+
+/**
+ * FilterControlMessage Type: Set Parameters
+ * @type {string}
+ * @static
+ */
+FilterControlMessage.SET_PARAMS = FilterControlMessage.BASE + 'setparams';
+
+/**
+ * FilterControlMessage Type: Set Filter Function
+ * @type {string}
+ * @static
+ */
+FilterControlMessageSET_FILTER = FilterControlMessage.BASE + 'setfilter';
+
+/**
+ * FilterControlMessage Type: Toggle to Filter Bypass Mode
+ * @type {string}
+ * @static
+ */
+FilterControlMessage.BYPASS = FilterControlMessage.BASE + 'bypass';
+
+/**
+ * FilterControlMessage Type: Toggle to filtering mode (default behavior) 
+ * @type {string}
+ * @static
+FilterControlMessage.FILTER = FilterControlMessage.BASE + 'filter';
+
+/**
+ * Target Filter Name
+ * @type {string}
+ */ 
+FilterControlMessage.prototype.name = null;
+
+/**
+ * Filter Function
+ * @type {Function}
+ */ 
+FilterControlMessage.prototype.filter = null;
+
+/**
+ * Filter Parameters
+ * @type {Object}
+ */ 
+FilterControlMessage.prototype.params = null;

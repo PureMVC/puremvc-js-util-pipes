@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- BUILD PUREMVC JS -->
-<project name="puremvc.js" basedir="../" default="buildLib">
+<!-- BUILD PUREMV JS PIPES UTILITY -->
+<project name="puremvc-pipes.js" basedir="../" default="buildLib">
 
 	<!-- PROPERTIES -->
-	<property name="src.dir" 		value="${basedir}/src"/>
-	<property name="bin.dir" 		value="${basedir}/bin"/>
+	<property name="src.dir" 	value="${basedir}/src"/>
+	<property name="bin.dir" 	value="${basedir}/bin"/>
 	<property name="build.dir"  	value="${basedir}/build"/>
 	<property name="report.dir"  	value="${basedir}/report"/>
 	<property name="template.dir" 	value="${build.dir}/template"/>
 	<property name="config.dir" 	value="${build.dir}/config"/>
-	<property name="lib.dir" 		value="${build.dir}/lib"/>
+	<property name="lib.dir" 	value="${build.dir}/lib"/>
 	<property file="${config.dir}/build.properties" />
-	<property name="jscompjar" 		location="${lib.dir}/${google.closure.jar}" />
-	<property name="jstestjar" 		location="${lib.dir}/${js.test.driver.jar}" />
-	<property name="jsduckexe" 		location="${lib.dir}/${jsduck.win.executable}" />
+	<property name="jscompjar" 	location="${lib.dir}/${google.closure.jar}" />
+	<property name="jstestjar" 	location="${lib.dir}/${js.test.driver.jar}" />
+	<property name="jsduckexe" 	location="${lib.dir}/${jsduck.win.executable}" />
 
 	<!-- TARGET: buildLib -->
 	<target name="buildLib" description="Package the PureMVC Pipes JS">

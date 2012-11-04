@@ -10,27 +10,45 @@
  * very useful and so they do not require a name. If multiple
  * queues are connected serially, the message will be acted
  * upon by the first queue only.</P>
+ *
+ * @class puremvc.pipes.QueueControlMessage
+ * @extends puremv.pipes.Message
+ * @constructor
+ * @param {string} [type]
+ * The only relevant property is type.
  */
-
-function QueueControlMessage(args)
+function QueueControlMessage( type )
 {
-    if (args)
-    {
-        this.type = args.type;
-    }
+	this.type = type;
 }
-
-
-QueueControlMessage.NAME = "QueueControlMessage";
-
 
 QueueControlMessage.prototype = new Message;
 QueueControlMessage.prototype.constructor = QueueControlMessage;
 
-QueueControlMessage.BASE  = Message.BASE + '/queue/';
-// flush the queue
-QueueControlMessage.FLUSH = Message.BASE + 'flush';
+/**
+ * QueueControlMessage Type Base URI
+ * @type {string}
+ * @protected
+ * @static
+ */
+QueueControlMessage.BASE  = Message.BASE + 'queue/';
+
+/**
+ * QueueControlMessage Type: Flush the Queue
+ * @type {string}
+ * @static
+ */
+QueueControlMessage.FLUSH = QueueControlMessage.BASE + 'flush';
+
+/**
+ * QueueControlMessage Type: Toggle to Sort by Priority Mode
+ * @type {string}
+ * @static
 // toggle to sort-by-priority
-QueueControlMessage.SORT  = Message.BASE + 'sort';
-// toggle to FIFO operation mode (default behavior)
-QueueControlMessage.FIFO  = Message.BASE + 'fifo';
+QueueControlMessage.SORT  = QueueControlMessage.BASE + 'sort';
+
+/**
+ * QueueControlMessage Type: Toggle to FIFO operation (default behavior) 
+ * @type {string}
+ * @static
+QueueControlMessage.FIFO  = QueueControlMessage.BASE + 'fifo';

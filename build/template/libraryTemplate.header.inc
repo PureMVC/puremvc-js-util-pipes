@@ -8,7 +8,7 @@
 	    scope = window;
 	
 	// if the global puremvc namespace already exists, turn back now
-	if (scope.org)
+	if ( scope.puremvc.pipes )
 	{
 	    return
 	}
